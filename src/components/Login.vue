@@ -13,7 +13,7 @@
                         <v-form>
                            <v-text-field
                            v-model="email"
-                              label="email"
+                              label="Email"
                               type="text"
                            ></v-text-field>
                            <v-text-field
@@ -47,7 +47,10 @@ import axios from "axios"
     }),
     methods:{
       login(){
-         axios.get("http://localhost:4000/api/usuario?email=juanfuente1221123123@gmail.com&contrasena=123456")
+         axios.post("http://localhost:4000/api/usuario/login",{
+            email:this.email,
+            contrasena:this.contrasena
+         })
          .then(response=>{
             console.log(response.data);
          })
