@@ -12,13 +12,12 @@
                      <v-card-text>
                         <v-form>
                            <v-text-field
-                              name="login"
-                              label="Login"
+                           v-model="email"
+                              label="email"
                               type="text"
                            ></v-text-field>
                            <v-text-field
-                              id="password"
-                              name="password"
+                           v-model="contrasena"
                               label="Password"
                               type="password"
                            ></v-text-field>
@@ -26,7 +25,7 @@
                      </v-card-text>
                      <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="primary" to="/">Login</v-btn>
+                        <v-btn color="primary" @click=login()>Login</v-btn>
                      </v-card-actions>
                   </v-card>
                </v-flex>
@@ -38,10 +37,24 @@
 
 
 <script>
+import axios from "axios"
   export default {
     name: 'PageLogin',
 
     data: () => ({
+      email:"",
+      contrasena:""
     }),
+    methods:{
+      login(){
+         axios.get("http://localhost:4000/api/usuario?email=juanfuente1221123123@gmail.com&contrasena=123456")
+         .then(response=>{
+            console.log(response.data);
+         })
+         .catch(error=>{
+            console.log(error);
+         })
+      }
+    }
   }
 </script>
