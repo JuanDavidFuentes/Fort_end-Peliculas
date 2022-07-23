@@ -24,7 +24,7 @@
 export default {
     name:"InicioHeader",
     data: () => ({
-      drawer: true,
+      drawer: false,
     })
 
   }
