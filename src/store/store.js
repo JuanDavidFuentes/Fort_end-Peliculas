@@ -7,7 +7,8 @@ Vue.use(Vuex);
 export const store =new Vuex.Store({
     state: {
         token:"",
-        datos:{}
+        datos:{},
+        peliculas:{}
     },
     mutations:{
         setToken(state,value){
@@ -15,6 +16,9 @@ export const store =new Vuex.Store({
         },
         setDatos(state, datos){
             state.datos = datos
+        },
+        setPelicula(state, datos){
+            state.peliculas = datos
         }
     },
     actions:{
@@ -23,6 +27,9 @@ export const store =new Vuex.Store({
         },
         setDatos(context,value){
             context.commit('setDatos',value)
+        },
+        setPelicula(context,value){
+            context.commit('setPelicula',value)
         }
     }
 });
