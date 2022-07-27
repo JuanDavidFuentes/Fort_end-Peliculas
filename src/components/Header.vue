@@ -1,14 +1,14 @@
 <template>
 
-    <v-toolbar app class="warning">
-      <v-app-bar-nav-icon @click="drawer=!drawer"></v-app-bar-nav-icon>
+    <v-toolbar app class="primary">
+      <v-app-bar-nav-icon @click="drawer=!drawer" color="white"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Title</v-toolbar-title>
+      <v-toolbar-title class="white--text">Title</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
 
-      <v-btn icon>
+      <v-btn icon color="white">
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
 
