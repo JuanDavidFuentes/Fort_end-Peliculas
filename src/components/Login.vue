@@ -64,7 +64,7 @@ export default {
                this.$router.push("/inicio")
             })
             .catch(error => {
-               this.err = error.response.data.errors[0].msg
+               // this.err = error.response.data.errors[0].msg
                console.log(error);
             })
       },
@@ -95,28 +95,4 @@ export default {
 }
 </style>
 
-      <!-- <div class="a" v-if="mostrar === 1">
-         <v-row class="b"></v-row>
-         <v-row class="c">
-            <v-layout align-center justify-center>
-               <v-flex xs12 sm8 md4>
-                  <v-card class="elevation-12">
-                     <v-toolbar dark color="primary">
-                        <v-toolbar-title>Registrate</v-toolbar-title>
-                     </v-toolbar>
-                     <v-card-text>
-                        <v-form>
-                           <v-text-field v-model="email" label="Email" type="text"></v-text-field>
-                           <v-text-field v-model="contrasena" label="Password" type="password"></v-text-field>
-                        </v-form>
-                     </v-card-text>
-                     <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="primary" @click=login()>Iniciar sesión</v-btn>
-                     </v-card-actions>
-                  </v-card>
-               </v-flex>
-            </v-layout>
-         </v-row>
-         <v-row class="b"></v-row>
-      </div> -->
+ 
