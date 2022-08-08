@@ -8,7 +8,8 @@ export const store =new Vuex.Store({
     state: {
         token:"",
         datos:{},
-        peliculas:{}
+        peliculas:{},
+        comentarios:{}
     },
     mutations:{
         setToken(state,value){
@@ -19,7 +20,10 @@ export const store =new Vuex.Store({
         },
         setPelicula(state, datos){
             state.peliculas = datos
-        }
+        },
+        // setComentario(state, datos){
+        //     state.comentarios = datos
+        // }
     },
     actions:{
         setToken(context,value){
@@ -30,6 +34,9 @@ export const store =new Vuex.Store({
         },
         setPelicula(context,value){
             context.commit('setPelicula',value)
-        }
+        },
+        // setComentario(context,value){
+        //     context.commit('setComentario',value)
+        // }
     }
 });

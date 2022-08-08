@@ -20,7 +20,7 @@
                         </div>
                         <p></p>
                         <div class="white--text display-2 font-weight-Medium">
-                            descripcion
+                            Descripcion
                         </div>
                     </div>
                     <p></p>
@@ -57,7 +57,30 @@
         </v-row>
 
         <v-row>
-
+            <v-row class="d">
+                <v-col cols="2"></v-col>
+                <v-col cols="8">
+                    <div class="black--text text-center display-2 font-weight-bold">
+                        Comentarios
+                    </div>
+                    <v-form>
+                        <v-text-field v-model="comentario" label="Comentario" type="text"></v-text-field>
+                        <v-btn color="primary" @click="Icomentario()">Comentar</v-btn>
+                    </v-form>
+                </v-col>
+                <v-col cols="2"></v-col>
+            </v-row>
+        </v-row>
+        <v-row class="d">
+            <v-col cols="2"></v-col>
+            <v-col cols="8">
+                <v-row class="d" v-for="(c, i) in comentarios" :key="i">
+                    <div>
+                        - {{c.comentario}}
+                    </div>
+                </v-row>
+            </v-col>
+            <v-col cols="2"></v-col>
         </v-row>
 
     </v-container-fluid>
@@ -70,10 +93,12 @@ export default {
     data() {
         return {
             peliculas: {},
-            datos:{},
+            datos: {},
             actores: [],
-            idPeli:"",
-            idUsu:""
+            comentarios: [],
+            idPeli: "",
+            idUsu: "",
+            comentario: ""
         }
     },
     methods: {
@@ -82,26 +107,54 @@ export default {
             this.peliculas = this.$store.state.peliculas
             this.actores = this.peliculas.reparto
         },
-        favoritos(){
-            this.datos=this.$store.state.datos
-            this.idPeli=this.peliculas._id
-            this.idUsu=this.datos._id
+        favoritos() {
+            this.datos = this.$store.state.datos
+            this.idPeli = this.peliculas._id
+            this.idUsu = this.datos._id
             let header = { headers: { "x-token": this.$store.state.token } }
             axios.post("http://localhost:4000/api/favoritos", {
-            usuario:this.idUsu,
-            pelicula:this.idPeli
-         }, header)
-            .then(response => {
-               console.log(response.data);
-            })
-            .catch(error => {
-               console.log(error);
-            })
-        }
+                usuario: this.idUsu,
+                pelicula: this.idPeli
+            }, header)
+                .then(response => {
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        },
+        Icomentario() {
+            this.datos = this.$store.state.datos
+            this.idPeli = this.peliculas._id
+            this.idUsu = this.datos._id
+            let header = { headers: { "x-token": this.$store.state.token } }
+            axios.post("http://localhost:4000/api/comentarios", {
+                usuario: this.idUsu,
+                pelicula: this.idPeli,
+                comentario: this.comentario
+            }, header)
+                .then(response => {
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        },  
+        traerComentatio() {
+            this.idPeli = this.peliculas._id
+            axios.get(`http://localhost:4000/api/comentarios/listarCdeP/${this.idPeli}`)
+                .then(response => {
+                    this.comentarios = response.data.comen
+                    console.log(response);
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        },
     },
-
     created() {
         this.listar()
+        this.traerComentatio()
     },
 
 
