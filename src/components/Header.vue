@@ -13,7 +13,7 @@
   <v-spacer></v-spacer>
 
   <v-btn flat color="white">
-    <span>Sing out</span>
+    <span @click="salir()">Sing out</span>
     <!-- <v-app-bar-nav-icon right>exit_to_app</v-app-bar-nav-icon> -->
   </v-btn>
 
@@ -35,8 +35,15 @@
 <script>
 export default {
     name:"InicioHeader",
-    data: () => ({
-      drawer: false,
-    })
-  }
+    data(){
+      return {
+            drawer: false,
+        }
+    },
+    methods: {
+        salir() {
+          this.$router.push("/")
+        }
+    }
+  }  
 </script>

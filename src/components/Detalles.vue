@@ -81,6 +81,9 @@
                 </v-row>
             </v-col>
             <v-col cols="2"></v-col>
+            <v-btn color="primary" @click="volver()">
+                Volver
+            </v-btn>
         </v-row>
 
     </v-container-fluid>
@@ -151,6 +154,9 @@ export default {
                     console.log(error);
                 })
         },
+        volver(){
+            this.$router.push("/inicio")
+        }
     },
     created() {
         this.listar()
