@@ -1,34 +1,55 @@
 
 <template>
-  <nav>
-<v-toolbar color="blue">
+  <div class="mt-5">
+    <v-app-bar app flex color="blue" dark>
+      <v-app-bar-nav-icon @click="drawer = true" v-if="$store.state.token !== ''"></v-app-bar-nav-icon>
 
-  <v-app-bar-nav-icon class="white--text" @click="drawer=!drawer"></v-app-bar-nav-icon>
-  
-  <v-toolbar-title class="text-uppercase white--text">
-    <span class="font-weight-light">Todo</span>
-    <span>Ninja</span>
-  </v-toolbar-title>
+      <v-toolbar-title>Peliculas</v-toolbar-title>
+      <v-spacer></v-spacer>
 
-  <v-spacer></v-spacer>
+      <v-btn @click="salir()" class="white blue--text" v-if="$store.state.token !== ''">
+        salir
+        <v-icon>mdi-door-open</v-icon>
+      </v-btn>
+    </v-app-bar>
 
-  <v-btn flat color="white">
-    <span @click="salir()">Sing out</span>
-    <!-- <v-app-bar-nav-icon right>exit_to_app</v-app-bar-nav-icon> -->
-  </v-btn>
+    <v-navigation-drawer temporary v-model="drawer" absolute color="blue">
+      <v-list>
+        <v-list-item>
+          <h1></h1>
+        </v-list-item>
 
-</v-toolbar>
+        <v-list-item class="d-flex justify-center" to="/perfil">
+          <v-avatar color="white" size="62">
+            <v-img :src="$store.state.datos.foto">
+            </v-img>
+          </v-avatar>
+        </v-list-item>
+        <v-list-item class="d-flex justify-center white--text mt-4 mb-4">
+          <h3 align="center" justify="center">{{ $store.state.datos.nombre }}</h3>
+        </v-list-item>
 
-  <v-navigation-drawer app v-model="drawer" absolute class="indigo">
-  <v-container>
-  <v-row>
-    <v-col cols="4"></v-col>
-    <v-col cols="4"><p>Foto</p></v-col>
-    <v-col cols="4"><v-btn @click="drawer=!drawer" height="20">X</v-btn></v-col>
-  </v-row>
-  </v-container>
-  </v-navigation-drawer>
-  </nav>
+        <!-- //Pagina inicio -->
+
+        <v-list-item to="/inicio">
+          <v-list-item-icon class="white--text" >
+            <v-icon color="white">mdi-home</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-title class="white--text">Home</v-list-item-title>
+        </v-list-item>
+
+        <!-- //grupo holders -->
+        <v-list-item to="/favoritos" >
+          <v-list-item-icon class="white--text">
+            <v-icon color="white">mdi-heart-outline</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-title class="white--text">Favoritos</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+  </div>
 </template>
 
 
@@ -38,6 +59,7 @@ export default {
     data(){
       return {
             drawer: false,
+            group: null
         }
     },
     methods: {

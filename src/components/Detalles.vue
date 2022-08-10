@@ -1,5 +1,6 @@
 <template>
     <v-container-fluid class="body">
+        <div v-if="ocultar===1">
         <v-img class="fondo" v-bind:style='{ backgroundImage: `url("${peliculas.imagen}")` }'>
             <v-row class="d">
 
@@ -51,7 +52,7 @@
 
             <carousel-3d>
                 <slide v-for="(a, i) in actores" :key="i" :index="i">
-                    <img height="270px" :src="a.idactor.foto" @click="listar(a)">
+                    <img height="270px" :src="a.idactor.foto" @click="actor(a)">
                 </slide>
             </carousel-3d>
         </v-row>
@@ -85,6 +86,59 @@
                 Volver
             </v-btn>
         </v-row>
+        </div>
+
+        <div v-if="ocultar===0">
+            <v-row>
+                <v-col cols="2">
+                    <v-img :src="detalles.idactor.foto"></v-img>
+                </v-col>
+                <v-col cols="8">
+                    <div class="text-center display-1 black--text font-weight-bold">
+                        Detalles del Actor {{detalles.idactor.nombre}}
+                    </div>
+                    <div>
+                        <span class="text-center display-1 black--text font-weight-bold">
+                            Nombre:
+                        </span>
+                        <span class="black-text title ml-4  black--text font-weight-light">
+                           {{detalles.idactor.nombre}}
+                        </span>
+                    </div>
+                    <br>
+                    <div>
+                        <span class="text-center display-1 black--text font-weight-bold">
+                            Observaciones:
+                        </span>
+                        <span class="black-text title ml-4  black--text font-weight-light">
+                           {{detalles.idactor.observaciones}}
+                        </span>
+                    </div>
+                    <br>
+                    <div>
+                        <span class="text-center display-1 black--text font-weight-bold">
+                            Personaje el cual interpreta el actor:
+                        </span>
+                        <span class="black-text title ml-4  black--text font-weight-light">
+                           {{detalles.personaje}}
+                        </span>
+                    </div>
+                </v-col>
+                <v-col cols="2"></v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="2"></v-col>
+                <v-col cols="8">
+                    <v-btn color="primary" @click="volverr()">
+                        volver
+                    </v-btn>
+                </v-col>
+                <v-col cols="2"></v-col>
+            </v-row>
+        </div>
+
+
+
 
     </v-container-fluid>
 </template>
@@ -99,14 +153,15 @@ export default {
             datos: {},
             actores: [],
             comentarios: [],
+            detalles:[],
             idPeli: "",
             idUsu: "",
-            comentario: ""
+            comentario: "",
+            ocultar:1
         }
     },
     methods: {
-        listar(p) {
-            console.log(p);
+        listar() {
             this.peliculas = this.$store.state.peliculas
             this.actores = this.peliculas.reparto
         },
@@ -138,6 +193,8 @@ export default {
             }, header)
                 .then(response => {
                     console.log(response.data);
+                    this.traerComentatio()
+                    this.comentario=""
                 })
                 .catch(error => {
                     console.log(error);
@@ -156,6 +213,14 @@ export default {
         },
         volver(){
             this.$router.push("/inicio")
+        },
+        actor(a){
+            this.ocultar=0
+            this.detalles=a
+            console.log(this.detalles);
+        },
+        volverr(){
+            this.ocultar=1
         }
     },
     created() {

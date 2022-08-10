@@ -1,5 +1,5 @@
-<template>
-    <v-container>
+<template >
+    <v-container class="body">
         <v-row style="margin:30px">
             <v-col cols="3" v-for="(p, i) in peliculas" :key="i">
                 <template>
@@ -86,3 +86,15 @@ export default {
     },
 }
 </script>
+
+<style>
+.body {
+    margin: 50px;
+    font-family: sans-serif;
+    display: grid;
+    top: auto;
+    min-height: 100vh;
+    grid-template-rows: auto 1fr auto;
+    align-items: center;
+}
+</style>
