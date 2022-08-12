@@ -62,19 +62,33 @@ export default {
 
     data() {
         return {
-            peliculas: []
+            favoritos: [],
+            peliculas:[],
+            data:this.$store.state.datos,
+            pelis:this.$store.state.peliculas
         }
     },
     methods: {
         listar() {
             let header = { headers: { "x-token": this.$store.state.token } }
-            axios.get("http://localhost:4000/api/peliculas", header)
+            axios.get(`http://localhost:4000/api/favoritos/listarU/${this.data._id}`, header)
                 .then(response => {
-                    this.peliculas = response.data.pelicula
+                    this.favoritos = response.data.fav
+
                 })
                 .catch(error => {
                     console.log(error);
                 })
+        },
+        pelicula(){
+            // console.log(this.favoritos);
+            // axios.get(`http://localhost:4000/api/peliculas/buscarID/${this.favoritos.pelicula}`)
+            //     .then(response => {
+            //         console.log(response);
+            //     })
+            //     .catch(error => {
+            //         console.log(error);
+            //     })
         },
         detalles(p){
             this.$store.dispatch("setPelicula", p);
