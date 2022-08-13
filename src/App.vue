@@ -31,7 +31,7 @@ export default {
   font-family:sans-serif;
   display: grid;
   top:auto;
-  min-height:100vh;
+  min-height:78vh;
   grid-template-rows:auto 1fr auto;
   align-items: center;
 }

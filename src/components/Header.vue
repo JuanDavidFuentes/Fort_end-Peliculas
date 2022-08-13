@@ -64,8 +64,10 @@ export default {
     },
     methods: {
         salir() {
-          this.$router.push("/")
+          this.$router.replace("/")
+          this.$store.commit("setToken","")
         }
+
     }
   }  
 </script>

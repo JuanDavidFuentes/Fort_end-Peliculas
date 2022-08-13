@@ -4,28 +4,25 @@
             <v-col cols="3" v-for="(p, i) in peliculas" :key="i">
                 <template>
                     <v-card class="mx-auto" max-width="500">
-                        <v-img class="white--text align-end" height="500px" :src="p.imagen">
+                        <v-img class="white--text align-end" height="500px" :src="p.pelicula.imagen">
                         </v-img>
                         <v-card-subtitle class="pb-2">
                             <div class="text-center">
                                 <h1>
-                                    {{ p.titulo }}
+                                    {{ p.pelicula.titulo }}{{p.subtitulo}}
                                 </h1>
                             </div>
                         </v-card-subtitle>
                         <v-card-text>
-                            <h3>
-                                {{ p.descripcion }}
-                            </h3>
                             <br>
                             <v-row align="center" class="mx-0">
-                                <v-rating :value="p.calificacion" color="amber" dense half-increments readonly
+                                <v-rating :value="p.pelicula.calificacion" color="amber" dense half-increments readonly
                                     size="14">
                                 </v-rating>
 
                                 <div class="grey--text ms-4">
                                     <h2>
-                                        {{ p.calificacion }}
+                                        {{ p.pelicula.calificacion }}
                                     </h2>
                                 </div>
                             </v-row>
@@ -63,9 +60,9 @@ export default {
     data() {
         return {
             favoritos: [],
-            peliculas:[],
-            data:this.$store.state.datos,
-            pelis:this.$store.state.peliculas
+            peliculas: [],
+            data: this.$store.state.datos,
+            pelis: this.$store.state.peliculas
         }
     },
     methods: {
@@ -73,25 +70,15 @@ export default {
             let header = { headers: { "x-token": this.$store.state.token } }
             axios.get(`http://localhost:4000/api/favoritos/listarU/${this.data._id}`, header)
                 .then(response => {
-                    this.favoritos = response.data.fav
-
+                    console.log(response.data.fav);
+                    this.peliculas=response.data.fav
                 })
                 .catch(error => {
                     console.log(error);
                 })
         },
-        pelicula(){
-            // console.log(this.favoritos);
-            // axios.get(`http://localhost:4000/api/peliculas/buscarID/${this.favoritos.pelicula}`)
-            //     .then(response => {
-            //         console.log(response);
-            //     })
-            //     .catch(error => {
-            //         console.log(error);
-            //     })
-        },
-        detalles(p){
-            this.$store.dispatch("setPelicula", p);
+        detalles(p) {
+            this.$store.dispatch("setPelicula", p.pelicula);
             this.$router.push("/detalles")
         }
     },

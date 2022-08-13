@@ -1,56 +1,83 @@
 <template>
     <v-container>
-        <v-row style="margin:30px">
-            <v-col cols="3" v-for="(p, i) in peliculas" :key="i">
-                <template>
-                    <v-card class="mx-auto" max-width="500">
-                        <v-img class="white--text align-end" height="500px" :src="p.imagen">
-                        </v-img>
-                        <v-card-subtitle class="pb-2">
-                            <div class="text-center">
-                                <h1>
-                                    {{ p.titulo }}
-                                </h1>
-                            </div>
-                        </v-card-subtitle>
-                        <v-card-text>
-                            <h3>
-                                {{ p.descripcion }}
-                            </h3>
-                            <br>
-                            <v-row align="center" class="mx-0">
-                                <v-rating :value="p.calificacion" color="amber" dense half-increments readonly
-                                    size="14">
-                                </v-rating>
-
-                                <div class="grey--text ms-4">
-                                    <h2>
-                                        {{ p.calificacion }}
-                                    </h2>
+        <div v-if="$store.state.token !== ''">
+            <v-row style="margin:30px">
+                <v-col cols="3" v-for="(p, i) in peliculas" :key="i">
+                    <template>
+                        <v-card class="mx-auto" max-width="500">
+                            <v-img class="white--text align-end" height="500px" :src="p.imagen">
+                            </v-img>
+                            <v-card-subtitle class="pb-2">
+                                <div class="text-center">
+                                    <h1>
+                                        {{ p.titulo }}: {{p.subtitulo}}
+                                    </h1>
                                 </div>
-                            </v-row>
-                        </v-card-text>
-                        <v-card-actions>
-                            <v-row>
-                                <v-col cols="4"></v-col>
-                                <v-col cols="4">
-                                    <v-btn color="primary" @click="detalles(p)">
-                                        Detalles
-                                    </v-btn>
-                                </v-col>
-                                <v-col cols="4"></v-col>
-                            </v-row>
-                        </v-card-actions>
-                    </v-card>
-                </template>
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col cols="6">
-            </v-col>
-            <v-col cols="6">
-            </v-col>
-        </v-row>
+                            </v-card-subtitle>
+                            <v-card-text>
+                                <br>
+                                <v-row align="center" class="mx-0">
+                                    <v-rating :value="p.calificacion" color="amber" dense half-increments readonly
+                                        size="14">
+                                    </v-rating>
+
+                                    <div class="grey--text ms-4">
+                                        <h2>
+                                            {{ p.calificacion }}
+                                        </h2>
+                                    </div>
+                                </v-row>
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-row>
+                                    <v-col cols="4"></v-col>
+                                    <v-col cols="4">
+                                        <v-btn color="primary" @click="detalles(p)">
+                                            Detalles
+                                        </v-btn>
+                                    </v-col>
+                                    <v-col cols="4"></v-col>
+                                </v-row>
+                            </v-card-actions>
+                        </v-card>
+                    </template>
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="6">
+                </v-col>
+                <v-col cols="6">
+                </v-col>
+            </v-row>
+        </div>
+        <div class="body2" v-else>
+            <v-row>
+                <v-col>
+                </v-col>
+                <v-col>
+                    <v-img height="50vh"
+                        src="http://pa1.narvii.com/6427/55743623c1b8724e3dc412582b53f125499f23c6_00.gif">
+
+                    </v-img>
+                </v-col>
+                <v-col></v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="4"></v-col>
+                <v-col cols="4" class="text-center">
+                    <v-alert color="red" dense outlined shaped text>
+                        <p>Su sesion a caducado porfavor inicie sesion</p>
+                        <v-btn @click="salir()">
+                            Volver
+                            <v-icon dark>
+                                mdi-reload
+                            </v-icon>
+                        </v-btn>
+                    </v-alert>
+                </v-col>
+                <v-col cols="4"></v-col>
+            </v-row>
+        </div>
     </v-container>
 </template>
 
@@ -76,9 +103,13 @@ export default {
                     console.log(error);
                 })
         },
-        detalles(p){
+        detalles(p) {
             this.$store.dispatch("setPelicula", p);
             this.$router.push("/detalles")
+        },
+        salir() {
+            this.$router.push("/")
+            this.$store.commit("setToken", "")
         }
     },
     created() {
@@ -86,3 +117,15 @@ export default {
     },
 }
 </script>
+<style>
+.body2{
+  margin:30px;
+  font-family:sans-serif;
+  display: grid;
+  top:auto;
+  min-height:78vh;
+  grid-template-rows:auto 1fr auto;
+  align-items: center;
+}
+
+</style>

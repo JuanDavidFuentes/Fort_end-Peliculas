@@ -1,139 +1,147 @@
 <template>
     <v-container-fluid class="body">
-        <div v-if="ocultar===1">
-        <v-img class="fondo" v-bind:style='{ backgroundImage: `url("${peliculas.imagen}")` }'>
-            <v-row class="d">
+        <div v-if="ocultar === 1">
+            <v-img class="fondo" v-bind:style='{ backgroundImage: `url("${peliculas.imagen}")` }'>
+                <v-row class="d">
 
-                <v-col cols="1">
-                </v-col>
-                <v-col cols="3">
-                    <v-img class="align-end" height="500px" :src="peliculas.imagen"></v-img>
-                </v-col>
+                    <v-col cols="1">
+                    </v-col>
+                    <v-col cols="3">
+                        <v-img class="align-end" height="500px" :src="peliculas.imagen"></v-img>
+                    </v-col>
 
 
-                <v-col cols="8">
-                    <div class="text--secondary">
-                        <div class="white--text display-2 font-weight-bold">
-                            {{ peliculas.titulo }}: {{ peliculas.subtitulo }} ({{ peliculas.fecha.slice(0, 4) }})
-                        </div>
-                        <div class="white--text ms-5 mt-1 font-weight-light">
-                            {{ peliculas.fecha.slice(0, 10) }} • {{ peliculas.genero }} • {{ peliculas.duracion }}
+                    <v-col cols="8">
+                        <div class="text--secondary">
+                            <div class="white--text display-2 font-weight-bold">
+                                {{ peliculas.titulo }}: {{ peliculas.subtitulo }} ({{ peliculas.fecha.slice(0, 4) }})
+                            </div>
+                            <div class="white--text ms-5 mt-1 font-weight-light">
+                                {{ peliculas.fecha.slice(0, 10) }} • {{ peliculas.genero }} • {{ peliculas.duracion }}
+                            </div>
+                            <p></p>
+                            <div class="white--text display-2 font-weight-Medium">
+                                Descripcion
+                            </div>
                         </div>
                         <p></p>
-                        <div class="white--text display-2 font-weight-Medium">
-                            Descripcion
-                        </div>
-                    </div>
-                    <p></p>
-                    <v-row class="d">
-                        <div class="white--text title font-weight-light">
-                            {{ peliculas.descripcion }}
-                        </div>
-                    </v-row>
-                    <v-row class="d">
-                        <v-rating :value="peliculas.calificacion" color="amber" dense half-increments readonly
-                            size="25">
-                        </v-rating>
-                        <div class="white--text ms-2  title font-weight-light">
-                            {{ peliculas.calificacion }} %
-                        </div>
-                    </v-row>
-                    <v-row>
-                        <v-btn class="mx-2" fab dark small color="blue" @click="favoritos()">
-                            <v-icon dark>
-                                mdi-heart
-                            </v-icon>
-                        </v-btn>
-                    </v-row>
-                </v-col>
+                        <v-row class="d">
+                            <div class="white--text title font-weight-light">
+                                {{ peliculas.descripcion }}
+                            </div>
+                        </v-row>
+                        <v-row class="d">
+                            <v-rating :value="peliculas.calificacion" color="amber" dense half-increments readonly
+                                size="25">
+                            </v-rating>
+                            <div class="white--text ms-2  title font-weight-light">
+                                {{ peliculas.calificacion }} %
+                            </div>
+                        </v-row>
+                        <v-row>
+                            <v-btn class="mx-2" fab dark small color="blue" @click="favoritos()">
+                                <v-icon dark>
+                                    mdi-heart
+                                </v-icon>
+                            </v-btn>
+                        </v-row>
+                    </v-col>
+                </v-row>
+            </v-img>
+            <v-row>
+
+                <carousel-3d>
+                    <slide v-for="(a, i) in actores" :key="i" :index="i">
+                        <img height="270px" :src="a.idactor.foto" @click="actor(a)">
+                    </slide>
+                </carousel-3d>
             </v-row>
-        </v-img>
-        <v-row>
 
-            <carousel-3d>
-                <slide v-for="(a, i) in actores" :key="i" :index="i">
-                    <img height="270px" :src="a.idactor.foto" @click="actor(a)">
-                </slide>
-            </carousel-3d>
-        </v-row>
-
-        <v-row>
+            <v-row>
+                <v-row class="d">
+                    <v-col cols="2"></v-col>
+                    <v-col cols="8">
+                        <div class="black--text text-center display-2 font-weight-bold">
+                            Comentarios
+                        </div>
+                        <v-form>
+                            <v-text-field v-model="comentario" label="Comentario" type="text"></v-text-field>
+                            <v-btn color="primary" @click="Icomentario()">Comentar</v-btn>
+                        </v-form>
+                    </v-col>
+                    <v-col cols="2"></v-col>
+                </v-row>
+            </v-row>
             <v-row class="d">
                 <v-col cols="2"></v-col>
                 <v-col cols="8">
-                    <div class="black--text text-center display-2 font-weight-bold">
-                        Comentarios
-                    </div>
-                    <v-form>
-                        <v-text-field v-model="comentario" label="Comentario" type="text"></v-text-field>
-                        <v-btn color="primary" @click="Icomentario()">Comentar</v-btn>
-                    </v-form>
+                    <v-row class="d" v-for="(c, i) in comentarios" :key="i">
+                        <div>
+                            - {{ c.comentario }}
+                        </div>
+                    </v-row>
                 </v-col>
                 <v-col cols="2"></v-col>
             </v-row>
-        </v-row>
-        <v-row class="d">
-            <v-col cols="2"></v-col>
-            <v-col cols="8">
-                <v-row class="d" v-for="(c, i) in comentarios" :key="i">
-                    <div>
-                        - {{c.comentario}}
-                    </div>
-                </v-row>
-            </v-col>
-            <v-col cols="2"></v-col>
-            <v-btn color="primary" @click="volver()">
-                Volver
-            </v-btn>
-        </v-row>
         </div>
 
-        <div v-if="ocultar===0">
+        <div v-if="ocultar === 0">
             <v-row>
-                <v-col cols="2">
-                    <v-img :src="detalles.idactor.foto"></v-img>
+                <v-col cols="3">
+                    <v-img height="70vh" :src="detalles.idactor.foto"></v-img>
                 </v-col>
                 <v-col cols="8">
-                    <div class="text-center display-1 black--text font-weight-bold">
-                        Detalles del Actor {{detalles.idactor.nombre}}
+                    <div class="text-center display-2 black--text font-weight-Normal">
+                        Detalles del Actor {{ detalles.idactor.nombre }}
+                    </div>
+                    <br><br><br><br><br>
+                    <div>
+                        <v-alert color="blue" outlined>
+                            <span class="text-center display-1 black--text font-weight-Normal">
+                                Nombre:
+                            </span>
+                            <span class="black-text title ml-4  black--text font-weight-light">
+                                {{ detalles.idactor.nombre }}
+                            </span>
+                        </v-alert>
                     </div>
                     <div>
-                        <span class="text-center display-1 black--text font-weight-bold">
-                            Nombre:
-                        </span>
-                        <span class="black-text title ml-4  black--text font-weight-light">
-                           {{detalles.idactor.nombre}}
-                        </span>
+                        <v-alert color="blue" outlined>
+                            <span class="text-center display-1 black--text font-weight-Normal">
+                                Observaciones:
+                            </span>
+                            <span class="black-text title ml-4  black--text font-weight-light">
+                                {{ detalles.idactor.observaciones }}
+                            </span>
+                        </v-alert>
                     </div>
-                    <br>
                     <div>
-                        <span class="text-center display-1 black--text font-weight-bold">
-                            Observaciones:
-                        </span>
-                        <span class="black-text title ml-4  black--text font-weight-light">
-                           {{detalles.idactor.observaciones}}
-                        </span>
-                    </div>
-                    <br>
-                    <div>
-                        <span class="text-center display-1 black--text font-weight-bold">
-                            Personaje el cual interpreta el actor:
-                        </span>
-                        <span class="black-text title ml-4  black--text font-weight-light">
-                           {{detalles.personaje}}
-                        </span>
+                        <v-alert color="blue" outlined>
+                            <span class="text-center display-1 black--text font-weight-Normal">
+                                Personaje el cual interpreta el actor:
+                            </span>
+                            <span class="black-text title ml-4  black--text font-weight-light">
+                                {{ detalles.personaje }}
+                            </span>
+                        </v-alert>
                     </div>
                 </v-col>
-                <v-col cols="2"></v-col>
+                <v-col cols="1"></v-col>
             </v-row>
             <v-row>
                 <v-col cols="2"></v-col>
                 <v-col cols="8">
+                </v-col>
+                <v-col cols="2"></v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="4"></v-col>
+                <v-col cols="4" class="text-center">
                     <v-btn color="primary" @click="volverr()">
                         volver
                     </v-btn>
                 </v-col>
-                <v-col cols="2"></v-col>
+                <v-col cols="4"></v-col>
             </v-row>
         </div>
 
@@ -153,17 +161,19 @@ export default {
             datos: {},
             actores: [],
             comentarios: [],
-            detalles:[],
+            detalles: [],
             idPeli: "",
             idUsu: "",
             comentario: "",
-            ocultar:1
+            ocultar: 1
         }
     },
     methods: {
         listar() {
             this.peliculas = this.$store.state.peliculas
             this.actores = this.peliculas.reparto
+            console.log(this.actore);
+            console.log(this.peliculas);
         },
         favoritos() {
             this.datos = this.$store.state.datos
@@ -194,33 +204,29 @@ export default {
                 .then(response => {
                     console.log(response.data);
                     this.traerComentatio()
-                    this.comentario=""
+                    this.comentario = ""
                 })
                 .catch(error => {
                     console.log(error);
                 })
-        },  
+        },
         traerComentatio() {
             this.idPeli = this.peliculas._id
             axios.get(`http://localhost:4000/api/comentarios/listarCdeP/${this.idPeli}`)
                 .then(response => {
                     this.comentarios = response.data.comen
-                    console.log(response);
                 })
                 .catch(error => {
                     console.log(error);
                 })
         },
-        volver(){
-            this.$router.push("/inicio")
-        },
-        actor(a){
-            this.ocultar=0
-            this.detalles=a
+        actor(a) {
+            this.ocultar = 0
+            this.detalles = a
             console.log(this.detalles);
         },
-        volverr(){
-            this.ocultar=1
+        volverr() {
+            this.ocultar = 1
         }
     },
     created() {

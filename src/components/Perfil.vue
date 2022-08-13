@@ -1,7 +1,7 @@
 <template >
-    <v-container class="body">
+    <v-container class="body4">
         <div v-if="ocultar === 1">
-            <v-row>
+            <v-row class="perfil">
                 <v-col cols="2"></v-col>
                 <v-col cols="8" class="items-center">
                     <center>
@@ -15,31 +15,39 @@
             <v-row>
                 <v-col cols="2"></v-col>
                 <v-col cols="8" class="items-center">
-                    <div>
-                        <span class="text-center display-1 black--text font-weight-bold">
-                            Usuario:
-                        </span>
-                        <span class="black-text title ml-4  black--text font-weight-light">
-                            {{ data.usuario }}
-                        </span>
-                    </div>
+                    <br>
+                    <br>
                     <br>
                     <div>
-                        <span class="text-center display-1 black--text font-weight-bold">
-                            Nombres y apellidos:
-                        </span>
-                        <span class="black-text title ml-4  black--text font-weight-light">
-                            {{ data.nombre }} {{ data.apellido }}
-                        </span>
+                        <v-alert color="blue" outlined>
+                            <span class="text-center headline black--text font-weight-Normal">
+                                Usuario:
+                            </span>
+                            <span class="black-text title ml-4  black--text font-weight-light">
+                                {{ data.usuario }}
+                            </span>
+                        </v-alert>
                     </div>
-                    <br>
                     <div>
-                        <span class="text-center display-1 black--text font-weight-bold">
-                            Correo:
-                        </span>
-                        <span class="black-text title ml-4  black--text font-weight-light">
-                            {{ data.email }}
-                        </span>
+                        <v-alert color="blue" outlined>
+                            <span class="text-center headline black--text font-weight-Normal">
+                                Nombres y apellidos:
+                            </span>
+                            <span class="black-text title ml-4  black--text font-weight-light">
+                                {{ data.nombre }} {{ data.apellido }}
+                            </span>
+                        </v-alert>
+
+                    </div>
+                    <div>
+                        <v-alert color="blue" outlined>
+                            <span class="text-center headline black--text font-weight-Normal">
+                                Correo:
+                            </span>
+                            <span class="black-text title ml-4  black--text font-weight-light">
+                                {{ data.email }}
+                            </span>
+                        </v-alert>
                     </div>
                     <br>
                     <div>
@@ -56,19 +64,20 @@
 
 
         <div v-if="ocultar === 0">
-                <v-row>
+            <v-row>
                 <v-col cols="2"></v-col>
                 <v-col cols="8" class="items-center">
+                    <br><br>
                     <div>
-                        <span class="text-center display-1 black--text font-weight-bold">
+                        <span class="text-center display-1 black--text font-weight-Normal">
                             Nuevo usuario:
                         </span>
                         <span>
-                           <v-text-field v-model="usuario" label="Usuario" type="text"></v-text-field>
+                            <v-text-field v-model="usuario" label="Usuario" type="text"></v-text-field>
                         </span>
                     </div>
                     <div>
-                        <span class="text-center display-1 black--text font-weight-bold">
+                        <span class="text-center display-1 black--text font-weight-Normal">
                             Nuevos nombres:
                         </span>
                         <span>
@@ -76,7 +85,7 @@
                         </span>
                     </div>
                     <div>
-                        <span class="text-center display-1  black--text font-weight-bold">
+                        <span class="text-center display-1  black--text font-weight-Normal">
                             Nuevos apellidos:
                         </span>
                         <span>
@@ -84,7 +93,7 @@
                         </span>
                     </div>
                     <div>
-                        <span class="text-center display-1 black--text font-weight-bold">
+                        <span class="text-center display-1 black--text font-weight-Normal">
                             Nuevo correo:
                         </span>
                         <span>
@@ -92,20 +101,38 @@
                         </span>
                     </div>
                     <div>
-                        <span class="text-center display-1 black--text font-weight-bold">
+                        <span class="text-center display-1 black--text font-weight-Normal">
                             Nueva contraseña:
                         </span>
                         <span>
                             <v-text-field v-model="password" label="password" type="password"></v-text-field>
                         </span>
                     </div>
+                    <br>
+                    <div>
+                        <span class="text-center display-1 black--text font-weight-Normal">
+                            Cambiar foto:
+                        </span>
+                    </div>
+                    <div>
+                    <input type="file" @change="subir">
+                    </div>
+                    <br>
                     <div>
                         <v-btn @click="editar()" color="primary">
                             Editar perfil
                         </v-btn>
                     </div>
+                    <br>
+                    <div>
+                        <v-btn @click="volver()" color="primary">
+                            Cancelar
+                        </v-btn>
+                    </div>
                 </v-col>
-                <v-col cols="2"></v-col>
+                <v-col cols="2">
+
+                </v-col>
             </v-row>
         </div>
     </v-container>
@@ -121,11 +148,12 @@ export default {
         return {
             data: {},
             ocultar: 1,
-            usuario:"",
-            nombres:"",
-            apellidos:"",
-            correo:"",
-            password:""
+            usuario: "",
+            nombres: "",
+            apellidos: "",
+            correo: "",
+            password: "",
+            img:""
         }
     },
     methods: {
@@ -133,16 +161,16 @@ export default {
             this.data = this.$store.state.datos
             console.log(this.data);
         },
-        editar(){
+        editar() {
             console.log(this.idusu);
             let header = { headers: { "x-token": this.$store.state.token } }
             axios.put(`http://localhost:4000/api/usuario/editar/${this.data._id}`, {
-                usuario:this.usuario,
-                nombre:this.nombres,
-                apellido:this.apellidos,
+                usuario: this.usuario,
+                nombre: this.nombres,
+                apellido: this.apellidos,
                 email: this.correo,
                 contrasena: this.password
-            },header)
+            }, header)
                 .then(response => {
                     console.log(response.data);
                     this.$router.push("/")
@@ -151,9 +179,30 @@ export default {
                     console.log(error);
                 })
         },
-        cambio(){
-            this.ocultar=0
-        }
+        cambio() {
+            this.ocultar = 0
+        },
+        volver() {
+            this.ocultar = 1
+        }, 
+        subir(e) {
+            this.img = e.target.files[0]
+            console.log(this.img);
+            let fd = new FormData();
+            fd.append("archivo", this.img);
+            let header = { headers: { "x-token": this.$store.state.token } };
+            console.log(fd);
+            axios.put(`http://localhost:4000/api/usuario/cargarCloud/${this.$store.state.datos._id}`,
+                fd, header)
+                .then(response => {
+                    console.log(response.data.url);
+                    this.$store.state.datos.foto=response.data.url
+                })
+                .catch(error => {
+                    console.log(error);
+
+                })
+        },
     },
     created() {
         this.perfil()
@@ -162,13 +211,17 @@ export default {
 </script>
 
 <style>
-.body {
-    margin: 50px;
+.body4 {
+    margin: 44px;
     font-family: sans-serif;
     display: grid;
     top: auto;
-    min-height: 100vh;
+    min-height: 78vh;
     grid-template-rows: auto 1fr auto;
     align-items: center;
+}
+
+.perfil {
+    background-color: darkgray;
 }
 </style>
