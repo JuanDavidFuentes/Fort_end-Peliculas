@@ -18,6 +18,7 @@
                             </v-form>
                         </v-card-text>
                         <v-card-actions>
+                            <v-btn color="primary" @click=volver()>Volver</v-btn>
                             <v-spacer></v-spacer>
                             <v-btn color="primary" @click=registro()>registro</v-btn>
                         </v-card-actions>
@@ -59,6 +60,9 @@ export default {
                 .catch(error => {
                     console.log(error);
                 })
+        },
+        volver(){
+            this.$router.push("/")
         }
     }
 }

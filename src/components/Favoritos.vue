@@ -3,27 +3,25 @@
         <v-row style="margin:30px">
             <v-col cols="3" v-for="(p, i) in peliculas" :key="i">
                 <template>
-                    <v-card class="mx-auto" max-width="500">
-                        <v-img class="white--text align-end" height="500px" :src="p.pelicula.imagen">
+                    <v-card class="mx-auto" max-width="200">
+                        <v-img class="white--text align-end" height="300px" :src="p.pelicula.imagen">
                         </v-img>
                         <v-card-subtitle class="pb-2">
-                            <div class="text-center">
-                                <h1>
+                            <div class="black--text title">
                                     {{ p.pelicula.titulo }}{{p.subtitulo}}
-                                </h1>
+                            </div>
+                            <div>
+                                    {{ p.pelicula.fecha.slice(0, 10) }}
                             </div>
                         </v-card-subtitle>
                         <v-card-text>
-                            <br>
-                            <v-row align="center" class="mx-0">
+                            <v-row class="mx-0">
                                 <v-rating :value="p.pelicula.calificacion" color="amber" dense half-increments readonly
                                     size="14">
                                 </v-rating>
 
                                 <div class="grey--text ms-4">
-                                    <h2>
                                         {{ p.pelicula.calificacion }}
-                                    </h2>
                                 </div>
                             </v-row>
                         </v-card-text>

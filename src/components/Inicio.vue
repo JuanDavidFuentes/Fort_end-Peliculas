@@ -1,42 +1,42 @@
 <template>
-    <v-container>
+    <v-container class="body">
         <div v-if="$store.state.token !== ''">
             <v-row style="margin:30px">
                 <v-col cols="3" v-for="(p, i) in peliculas" :key="i">
                     <template>
-                        <v-card class="mx-auto" max-width="500">
-                            <v-img class="white--text align-end" height="500px" :src="p.imagen">
+                        <v-card class="mx-auto" max-width="200">
+                            <v-img class="white--text align-end" height="300px" :src="p.imagen">
                             </v-img>
                             <v-card-subtitle class="pb-2">
-                                <div class="text-center">
-                                    <h1>
+                                <div class="black--text title">
                                         {{ p.titulo }}: {{p.subtitulo}}
-                                    </h1>
+                                </div>
+                                <div>
+                                    {{ p.fecha.slice(0, 10) }}
                                 </div>
                             </v-card-subtitle>
                             <v-card-text>
-                                <br>
-                                <v-row align="center" class="mx-0">
+                                <v-row class="mx-0">
                                     <v-rating :value="p.calificacion" color="amber" dense half-increments readonly
                                         size="14">
                                     </v-rating>
-
                                     <div class="grey--text ms-4">
-                                        <h2>
                                             {{ p.calificacion }}
-                                        </h2>
+                                    </div>
+                                    <div>
+
                                     </div>
                                 </v-row>
                             </v-card-text>
                             <v-card-actions>
                                 <v-row>
-                                    <v-col cols="4"></v-col>
-                                    <v-col cols="4">
+                                    <v-col cols="2"></v-col>
+                                    <v-col cols="3">
                                         <v-btn color="primary" @click="detalles(p)">
                                             Detalles
                                         </v-btn>
                                     </v-col>
-                                    <v-col cols="4"></v-col>
+                                    <v-col cols="2"></v-col>
                                 </v-row>
                             </v-card-actions>
                         </v-card>
@@ -57,7 +57,6 @@
                 <v-col>
                     <v-img height="50vh"
                         src="http://pa1.narvii.com/6427/55743623c1b8724e3dc412582b53f125499f23c6_00.gif">
-
                     </v-img>
                 </v-col>
                 <v-col></v-col>
@@ -78,6 +77,7 @@
                 <v-col cols="4"></v-col>
             </v-row>
         </div>
+        <v-btn @click="pelis()">pelis</v-btn>
     </v-container>
 </template>
 
@@ -110,6 +110,9 @@ export default {
         salir() {
             this.$router.push("/")
             this.$store.commit("setToken", "")
+        },
+        pelis(){
+            this.$router.push("/peliculas")
         }
     },
     created() {

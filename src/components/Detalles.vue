@@ -60,9 +60,9 @@
             <v-row>
                 <v-row class="d">
                     <v-col cols="2"></v-col>
-                    <v-col cols="8">
-                        <div class="black--text text-center display-2 font-weight-bold">
-                            Comentarios
+                    <v-col cols="8" class="margin">
+                        <div class="blue--text text-center display-2 font-weight-bold">
+                            Comentar
                         </div>
                         <v-form>
                             <v-text-field v-model="comentario" label="Comentario" type="text"></v-text-field>
@@ -72,13 +72,18 @@
                     <v-col cols="2"></v-col>
                 </v-row>
             </v-row>
+            <br><br>
             <v-row class="d">
                 <v-col cols="2"></v-col>
-                <v-col cols="8">
-                    <v-row class="d" v-for="(c, i) in comentarios" :key="i">
-                        <div>
+                <v-col cols="8" class="margin">
+                    <div class="blue--text text-center display-2 font-weight-bold">
+                        Comentarios
+                    </div>
+                    <br>
+                    <v-row class="margin2" v-for="(c, i) in comentarios" :key="i">
+                        <v-card>
                             - {{ c.comentario }}
-                        </div>
+                        </v-card>
                     </v-row>
                 </v-col>
                 <v-col cols="2"></v-col>
@@ -164,6 +169,7 @@ export default {
             detalles: [],
             idPeli: "",
             idUsu: "",
+            idActor:"",
             comentario: "",
             ocultar: 1
         }
@@ -179,10 +185,12 @@ export default {
             this.datos = this.$store.state.datos
             this.idPeli = this.peliculas._id
             this.idUsu = this.datos._id
+            // this.idActor=this.peliculas.reparto.idactor
             let header = { headers: { "x-token": this.$store.state.token } }
             axios.post("http://localhost:4000/api/favoritos", {
                 usuario: this.idUsu,
-                pelicula: this.idPeli
+                pelicula: this.idPeli,
+                
             }, header)
                 .then(response => {
                     console.log(response.data);
@@ -275,6 +283,15 @@ export default {
     background: linear-gradient(90deg, #4c00fd 70%, #4c00fd00);
     opacity: 0.8;
     z-index: -1;
+}
+
+.margin {
+    margin: 0;
+    border: solid 2px #0099ff !important;
+}
+.margin2 {
+    margin: 0;
+    border: solid 2px #000000 !important;
 }
 </style>
 
