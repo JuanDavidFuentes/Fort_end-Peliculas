@@ -1,121 +1,175 @@
-<template>
+ <template>
     <v-container class="body">
+        <div class="text-center black--text display-2 font-weight-bold">Insertar Peliculas</div>
         <v-row>
-            <v-col cols="2">a</v-col>
-            <v-col cols="8">
-                <p v-if="aparecer === 1">Insertar Actor</p>
-                <v-form v-if="aparecer === 1">
-                    <v-text-field v-model="nombre" label="Nombre" type="text"></v-text-field>
-                    <v-text-field v-model="descripcion" label="Descripcion" type="text"></v-text-field>
-                </v-form>
-                <div v-if="aparecer === 0">
-                    <div>Foto:</div>
-                    <div>
-                        <input type="file" @change="subir">
-                    </div>
-                    <br>
+            <v-col cols="2"></v-col>
+            <v-col cols="8" class="items-center">
+                <br><br>
+                <div>
+                    <span class="text-center display-1 black--text font-weight-Normal">
+                        Titulo:
+                    </span>
+                    <span>
+                        <v-text-field v-model="titulo" label="Titulo" type="text"></v-text-field>
+                    </span>
                 </div>
                 <div>
-                    <v-btn color="primary" @click="listar()">Guardar Actor</v-btn>
+                    <span class="text-center display-1 black--text font-weight-Normal">
+                        Subtitulo:
+                    </span>
+                    <span>
+                        <v-text-field v-model="subtitulo" label="Subtitulo" type="text"></v-text-field>
+                    </span>
                 </div>
-                <v-expansion-panels>
-                    <v-expansion-panel v-for="(item, i) in actores" :key="i">
-                        <v-expansion-panel-header>
-                            Item
-                        </v-expansion-panel-header>
-                        <v-expansion-panel-content>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                            laboris nisi ut aliquip ex ea commodo consequat.
-                        </v-expansion-panel-content>
-                    </v-expansion-panel>
-                </v-expansion-panels>
+                <div>
+                    <span class="text-center display-1  black--text font-weight-Normal">
+                        Fecha:
+                    </span>
+                    <span>
+                        <v-text-field v-model="fecha" label="Fecha" type="date"></v-text-field>
+                    </span>
+                </div>
+                <div>
+                    <span class="text-center display-1 black--text font-weight-Normal">
+                        Descripcion:
+                    </span>
+                    <span>
+                        <v-text-field v-model="descripcion" label="Descripcion" type="text"></v-text-field>
+                    </span>
+                </div>
+                <div>
+                    <span class="text-center display-1 black--text font-weight-Normal">
+                        Genero:
+                    </span>
+                    <span>
+                        <v-text-field v-model="genero" label="Genero" type="text"></v-text-field>
+                    </span>
+                </div>
+                <div>
+                    <span class="text-center display-1 black--text font-weight-Normal">
+                        Duracion:
+                    </span>
+                    <span>
+                        <v-text-field v-model="duracion" label="Duracion" type="text"></v-text-field>
+                    </span>
+                </div>
+                <div>
+                    <span class="text-center display-1 black--text font-weight-Normal">
+                        Calificacion:
+                    </span>
+                    <span>
+                        <v-text-field v-model="calificacion" label="Calificacion" type="text"></v-text-field>
+                    </span>
+                </div>
+                <div>
+                    <span class="text-center display-1 black--text font-weight-Normal">
+                        Reparto:
+                    </span>
+                    <span>
+                        <carousel-3d>
+                            <slide v-for="(a, i) in actores" :key="i" :index="i">
+                                <img height="270px" :src="a.foto">
+                            </slide>
+                        </carousel-3d>
+                    </span>
+                </div>
+
+                <br>
+                <div>
+                    <v-btn @click="insertarPeli()" color="primary">
+                        Insertar Pelicula
+                    </v-btn>
+                </div>
+                <div>
+                    <v-btn @click="traerActores()" color="primary">
+                        a
+                    </v-btn>
+                </div>
             </v-col>
-            <v-col cols="2">a</v-col>
+            <v-col cols="2">
+
+            </v-col>
         </v-row>
     </v-container>
 </template>
 
 
 <script>
-import axios from 'axios'
+import axios from "axios"
 export default {
-    name: 'PagePeliculas',
+    name: 'PagePelis',
 
-    data() {
-        return {
-            peliculas: [],
-            actor:[],
-            aparecer: 1,
-            nombre: "",
-            descripcion: ""
-        }
-    },
+    data: () => ({
+        actores: [],
+        titulo: "",
+        subtitulo: "",
+        fecha: "",
+        descripcion: "",
+        genero: "",
+        duracion: "",
+        calificacion: "",
+        reparto: [],
+        idactor: "",
+        personaje: ""
+    }),
     methods: {
-        listar() {
+        insertarPeli() {
             let header = { headers: { "x-token": this.$store.state.token } }
-            axios.post("http://localhost:4000/api/actores", {
-                nombre: this.nombre,
-                observaciones: this.descripcion
+            axios.post("http://localhost:4000/api/peliculas", {
+                titulo: this.titulo,
+                subtitulo: this.subtitulo,
+                fecha: this.fecha,
+                descripcion: this.descripcion,
+                genero: this.genero,
+                duracion: this.duracion,
+                calificacion: this.calificacion,
+                reparto: this.reparto
             }, header)
                 .then(response => {
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        },
+        traerActores() {
+            axios.get(`http://localhost:4000/api/actores`)
+                .then(response => {
                     console.log(response);
-                    this.aparecer = 0
+                    this.actores = response.data.actor
+                    console.log(this.actores);
                 })
                 .catch(error => {
                     console.log(error);
                 })
-        },
-        listarActores(){
-            axios.get("http://localhost:4000/api/actores",)
-                .then(response => {
-                    this.actor=response.data.actor
-                    console.log(this.actor);
-                })
-                .catch(error => {
-                    console.log(error);
-                })
-        },
-        detalles(p) {
-            this.$store.dispatch("setPelicula", p);
-            this.$router.push("/detalles")
-        },
-        salir() {
-            this.$router.push("/")
-            this.$store.commit("setToken", "")
-        },
-        subir(e) {
-            this.img = e.target.files[0]
-            console.log(this.img);
-            let fd = new FormData();
-            fd.append("archivo", this.img);
-            let header = { headers: { "x-token": this.$store.state.token } };
-            console.log(fd);
-            axios.put(`http://localhost:4000/api/actores/cargarCloud/${this.$store.state.datos._id}`,
-                fd, header)
-                .then(response => {
-                    console.log(response.data.url);
-                    this.$store.state.datos.foto = response.data.url
-                })
-                .catch(error => {
-                    console.log(error);
-
-                })
-        },
+        }
     },
     created() {
-        this.listarActores()
+        this.traerActores()
     },
 }
 </script>
+
 <style>
-.body2 {
-    margin: 30px;
-    font-family: sans-serif;
-    display: grid;
-    top: auto;
-    min-height: 78vh;
-    grid-template-rows: auto 1fr auto;
-    align-items: center;
+.a {
+    height: 100%;
+    margin: 0;
+    background-image: url("https://www.todofondos.net/wp-content/uploads/1920x1080-Fondo-de-pantalla-Aesthetic.jpg")
+}
+
+.b {
+    height: 15%;
+    margin: 0;
+}
+
+.c {
+    height: 70%;
+    margin: 0;
+}
+
+.d {
+    margin: 0;
 }
 </style>
+
+ 

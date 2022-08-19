@@ -77,7 +77,7 @@
                 <v-col cols="4"></v-col>
             </v-row>
         </div>
-        <v-btn @click="pelis()">pelis</v-btn>
+        <v-btn @click="plisss()">Pelis</v-btn>
     </v-container>
 </template>
 
@@ -108,10 +108,10 @@ export default {
             this.$router.push("/detalles")
         },
         salir() {
-            this.$router.push("/")
+            this.$router.replace("/")
             this.$store.commit("setToken", "")
         },
-        pelis(){
+        plisss(){
             this.$router.push("/peliculas")
         }
     },

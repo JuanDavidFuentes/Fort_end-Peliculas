@@ -4,6 +4,7 @@ import detalles from '../components/Detalles.vue';
 import registro from '../components/Registro.vue';
 import perfil from '../components/Perfil.vue';
 import favoritos from '../components/Favoritos.vue';
+import actores from '../components/Actores.vue';
 import peliculas from '../components/Peliculas.vue';
 
 export const routes = [
@@ -13,5 +14,6 @@ export const routes = [
     {path: '/detalles', component: detalles},
     {path: '/perfil', component: perfil},
     {path: '/favoritos', component: favoritos},
+    {path: '/actores', component: actores},
     {path: '/peliculas', component: peliculas},
 ]
