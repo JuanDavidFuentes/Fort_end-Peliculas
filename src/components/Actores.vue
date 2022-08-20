@@ -1,9 +1,9 @@
 <template>
     <v-container class="body">
+        <div class="text-center black--text display-2 font-weight-bold">Agregar Actor</div>
         <v-row>
-            <v-col cols="2">a</v-col>
+            <v-col cols="2"></v-col>
             <v-col cols="8">
-                <p v-if="aparecer === 1">Insertar Actor</p>
                 <v-form v-if="aparecer === 1">
                     <div>
                         <span class="text-center display-1 black--text font-weight-Normal">
@@ -42,20 +42,8 @@
                     <v-btn v-if="aparecer === 1" color="primary" @click="insertar()">Continuar</v-btn>
                 </div>
                 <br>
-                <v-expansion-panels>
-                    <v-expansion-panel v-for="(item, i) in actores" :key="i">
-                        <v-expansion-panel-header>
-                            Item
-                        </v-expansion-panel-header>
-                        <v-expansion-panel-content>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                            laboris nisi ut aliquip ex ea commodo consequat.
-                        </v-expansion-panel-content>
-                    </v-expansion-panel>
-                </v-expansion-panels>
             </v-col>
-            <v-col cols="2">a</v-col>
+            <v-col cols="2"></v-col>
         </v-row>
     </v-container>
 </template>
@@ -92,16 +80,6 @@ export default {
                     console.log(error);
                 })
         },
-        // listarActores(){
-        //     axios.get("http://localhost:4000/api/actores",)
-        //         .then(response => {
-        //             this.actor=response.data.actor
-        //             console.log(this.actor);
-        //         })
-        //         .catch(error => {
-        //             console.log(error);
-        //         })
-        // },
         detalles(p) {
             this.$store.dispatch("setPelicula", p);
             this.$router.push("/detalles")
@@ -109,12 +87,10 @@ export default {
         subir(e) {
             this.img = e.target.files[0]
             console.log(this.img);
-           
-
         },
         volver() {
             console.log(this.img);
-             if (this.img != undefined) {
+            if (this.img != undefined) {
                 let fd = new FormData();
                 fd.append("archivo", this.img);
                 let header = { headers: { "x-token": this.$store.state.token } };
@@ -122,6 +98,13 @@ export default {
                 axios.put(`http://localhost:4000/api/actores/cargarCloud/${this.idactor}`,
                     fd, header)
                     .then(response => {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: "Actor agregado con exito",
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                         this.aparecer = 1
                         this.nombre = ""
                         this.descripcion = ""
@@ -135,7 +118,6 @@ export default {
                     icon: 'error',
                     title: 'Oops...',
                     text: 'Inserta una foto del actor!',
-                    footer: '<a href="">Why do I have this issue?</a>'
                 })
             }
         },
