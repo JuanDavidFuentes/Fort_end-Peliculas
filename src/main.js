@@ -1,14 +1,17 @@
-import Vue from 'vue'
-import App from './App.vue'
-import vuetify from './plugins/vuetify'
-import VueRouter from 'vue-router'
-import Carousel3d from 'vue-carousel-3d'
-import {store} from './store/store'
-import {routes} from './routes/routes.js'
+import Vue from 'vue';
+import App from './App.vue';
+import vuetify from './plugins/vuetify';
+import VueRouter from 'vue-router';
+import Carousel3d from 'vue-carousel-3d';
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+import {store} from './store/store';
+import {routes} from './routes/routes.js';
 
 
 Vue.use(VueRouter)
 Vue.use(Carousel3d)
+Vue.use(VueSweetalert2);
 Vue.config.productionTip = false
 
 const router = new VueRouter({

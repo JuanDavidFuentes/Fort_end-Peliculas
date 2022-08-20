@@ -65,24 +65,95 @@
                     <span class="text-center display-1 black--text font-weight-Normal">
                         Reparto:
                     </span>
-                    <span>
-                        <carousel-3d>
-                            <slide v-for="(a, i) in actores" :key="i" :index="i">
-                                <img height="270px" :src="a.foto">
-                            </slide>
-                        </carousel-3d>
-                    </span>
                 </div>
+                <v-row>
+                    <v-col cols="1"></v-col>
+                    <v-col cols="10">
+                    </v-col>
+                    <v-col cols="1"></v-col>
+                </v-row>
+                <v-row>
+                    <v-col cols="1"></v-col>
+                    <v-col cols="10">
+                        <v-row>
+                            <v-col cols="3" v-for="(a, i) in actores" :key="i">
+                                <v-card class="mx-auto" max-width="200">
+                                    <v-img class="white--text align-end" height="150px" :src="a.foto">
+                                    </v-img>
+                                    <v-card-subtitle class="pb-2">
+                                        <div class="black--text title">
+                                            {{ a.nombre }}
+                                        </div>
+                                    </v-card-subtitle>
+                                    <v-card-text>
+                                        <v-row class="mx-0">
+                                            <div class="grey--text ms-4">
 
+                                            </div>
+                                            <div>
+
+                                            </div>
+                                        </v-row>
+                                    </v-card-text>
+                                    <v-card-actions>
+                                        <v-row justify="center" style="margin:0">
+                                            <v-dialog v-model="dialog" persistent max-width="600px">
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-btn color="primary" dark v-bind="attrs" v-on="on"
+                                                        @click="sacarId(a)">
+                                                        <v-icon dark>
+                                                            mdi-loupe
+                                                        </v-icon>
+                                                    </v-btn>
+                                                </template>
+                                                <v-card>
+                                                    <v-card-title>
+                                                        <span class="text-h5">Personaje el cual interpreta</span>
+                                                    </v-card-title>
+                                                    <v-card-text>
+                                                        <v-container>
+                                                            <v-row>
+                                                                <v-col cols="12">
+                                                                    <v-text-field v-model="personaje" label="Personaje*"
+                                                                        required>
+                                                                    </v-text-field>
+                                                                </v-col>
+                                                            </v-row>
+                                                        </v-container>
+                                                    </v-card-text>
+                                                    <v-card-actions>
+                                                        <v-spacer></v-spacer>
+                                                        <v-btn color="blue darken-1" text @click="dialog = false">
+                                                            Close
+                                                        </v-btn>
+                                                        <v-btn color="blue darken-1" text @click="insertarActor()">
+                                                            Save
+                                                        </v-btn>
+                                                    </v-card-actions>
+                                                </v-card>
+                                            </v-dialog>
+                                        </v-row>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-col>
+                        </v-row>
+                        <br><br>
+                        <div v-if="aparecer===0">
+                            <span class="text-center display-1 black--text font-weight-Normal">
+                                Insertar Poster:
+                            </span>
+                            <br>
+                            <div>
+                                <input type="file" @change="subir">
+                            </div>
+                        </div>
+                    </v-col>
+                    <v-col cols="1"></v-col>
+                </v-row>
                 <br>
                 <div>
-                    <v-btn @click="insertarPeli()" color="primary">
+                    <v-btn v-if="aparecer===1" @click="insertarPeli()" color="primary">
                         Insertar Pelicula
-                    </v-btn>
-                </div>
-                <div>
-                    <v-btn @click="traerActores()" color="primary">
-                        a
                     </v-btn>
                 </div>
             </v-col>
@@ -110,7 +181,11 @@ export default {
         calificacion: "",
         reparto: [],
         idactor: "",
-        personaje: ""
+        personaje: "",
+        dialog: false,
+        aparecer:1,
+        alerta:"",
+        idpeli:""
     }),
     methods: {
         insertarPeli() {
@@ -127,6 +202,16 @@ export default {
             }, header)
                 .then(response => {
                     console.log(response.data);
+                    this.alerta=response.data.msg
+                    this.idpeli=response.data.pelicula._id
+                    this.aparecer=0
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: this.alerta,
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 })
                 .catch(error => {
                     console.log(error);
@@ -142,7 +227,39 @@ export default {
                 .catch(error => {
                     console.log(error);
                 })
-        }
+        },
+        sacarId(actor) {
+            this.idactor = actor._id
+        },
+        insertarActor() {
+            let actores = { idactor: this.idactor, personaje: this.personaje }
+            this.reparto.push(actores)
+            this.idactor = ""
+            this.personaje = ""
+            this.dialog = false
+        },
+        cancelar() {
+            this.idactor = ""
+            this.personaje = ""
+            this.dialog = false
+        },
+        subir(e) {
+            this.img = e.target.files[0]
+            console.log(this.img);
+            let fd = new FormData();
+            fd.append("archivo", this.img);
+            let header = { headers: { "x-token": this.$store.state.token } };
+            console.log(fd);
+            axios.put(`http://localhost:4000/api/peliculas/cargarCloud/${this.idpeli}`,
+                fd, header)
+                .then(response => {
+                    console.log(response.data.url);
+                })
+                .catch(error => {
+                    console.log(error);
+
+                })
+        },
     },
     created() {
         this.traerActores()
@@ -172,4 +289,3 @@ export default {
 }
 </style>
 
- 

@@ -8,7 +8,7 @@
                         </v-img>
                         <v-card-subtitle class="pb-2">
                             <div class="black--text title">
-                                    {{ p.pelicula.titulo }}{{p.subtitulo}}
+                                    {{ p.pelicula.titulo }}{{p.pelicula.subtitulo}}
                             </div>
                             <div>
                                     {{ p.pelicula.fecha.slice(0, 10) }}

@@ -32,7 +32,7 @@
         <!-- //Pagina inicio -->
 
         <v-list-item to="/inicio">
-          <v-list-item-icon class="white--text" >
+          <v-list-item-icon class="white--text">
             <v-icon color="white">mdi-home</v-icon>
           </v-list-item-icon>
 
@@ -40,18 +40,25 @@
         </v-list-item>
 
         <!-- //grupo holders -->
-        <v-list-item to="/favoritos" >
+        <v-list-item to="/favoritos">
           <v-list-item-icon class="white--text">
             <v-icon color="white">mdi-heart-outline</v-icon>
           </v-list-item-icon>
-          <v-list-item-title class="white--text">Favoritos</v-list-item-title>
+          <v-list-item-title class="white--text">Lista de pelis favoritas</v-list-item-title>
         </v-list-item>
-        
-        <v-list-item to="/actores" >
+
+        <v-list-item to="/actores">
           <v-list-item-icon class="white--text">
             <v-icon color="white">mdi-sword</v-icon>
           </v-list-item-icon>
-          <v-list-item-title class="white--text">Actores</v-list-item-title>
+          <v-list-item-title class="white--text">Agregar actor</v-list-item-title>
+        </v-list-item>
+
+        <v-list-item to="/peliculas">
+          <v-list-item-icon class="white--text">
+            <v-icon color="white">mdi-arrow-up-bold</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title class="white--text">Agregar pelis</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -61,21 +68,21 @@
 
 <script>
 export default {
-    name:"InicioHeader",
-    data(){
-      return {
-            drawer: false,
-            group: null
-        }
-    },
-    methods: {
-        salir() {
-          this.$router.replace("/")
-          this.$store.commit("setToken","")
-        }
-
+  name: "InicioHeader",
+  data() {
+    return {
+      drawer: false,
+      group: null
     }
-  }  
+  },
+  methods: {
+    salir() {
+      this.$router.replace("/")
+      this.$store.commit("setToken", "")
+    }
+
+  }
+}  
 </script>
 
 

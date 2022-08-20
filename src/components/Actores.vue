@@ -5,8 +5,22 @@
             <v-col cols="8">
                 <p v-if="aparecer === 1">Insertar Actor</p>
                 <v-form v-if="aparecer === 1">
-                    <v-text-field v-model="nombre" label="Nombre" type="text"></v-text-field>
-                    <v-text-field v-model="descripcion" label="Descripcion" type="text"></v-text-field>
+                    <div>
+                        <span class="text-center display-1 black--text font-weight-Normal">
+                            Nombre:
+                        </span>
+                        <span>
+                            <v-text-field v-model="nombre" label="Nombre" type="text"></v-text-field>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="text-center display-1 black--text font-weight-Normal">
+                            Observacion:
+                        </span>
+                        <span>
+                            <v-text-field v-model="descripcion" label="Descripcion" type="text"></v-text-field>
+                        </span>
+                    </div>
                 </v-form>
                 <div v-if="aparecer === 0">
                     <div>Foto:</div>
@@ -16,8 +30,12 @@
                     </div>
                     <br>
                     <v-row>
-                        <v-col cols="6"><v-btn color="red" @click="eliminar()">Cancelar</v-btn></v-col>
-                        <v-col cols="6"><v-btn color="primary" @click="volver()">Guardar Actor</v-btn></v-col>
+                        <v-col cols="6">
+                            <v-btn color="red" @click="eliminar()">Cancelar</v-btn>
+                        </v-col>
+                        <v-col cols="6">
+                            <v-btn color="primary" @click="volver()">Guardar Actor</v-btn>
+                        </v-col>
                     </v-row>
                 </div>
                 <div>
@@ -51,7 +69,7 @@ export default {
     data() {
         return {
             peliculas: [],
-            idactor:"",
+            idactor: "",
             aparecer: 1,
             nombre: "",
             descripcion: ""
@@ -66,9 +84,9 @@ export default {
             }, header)
                 .then(response => {
                     console.log(response);
-                    this.idactor=response.data.actor._id
+                    this.idactor = response.data.actor._id
                     console.log(this.idactor);
-                    this.aparecer=0
+                    this.aparecer = 0
                 })
                 .catch(error => {
                     console.log(error);
@@ -91,27 +109,37 @@ export default {
         subir(e) {
             this.img = e.target.files[0]
             console.log(this.img);
-            let fd = new FormData();
-            fd.append("archivo", this.img);
-            let header = { headers: { "x-token": this.$store.state.token } };
-            console.log(fd);
-            axios.put(`http://localhost:4000/api/actores/cargarCloud/${this.idactor}`,
-                fd, header)
-                .then(response => {
-                    console.log(response.data.url);
-                    this.$store.state.datos.foto = response.data.url
-                })
-                .catch(error => {
-                    console.log(error);
+           
 
+        },
+        volver() {
+            console.log(this.img);
+             if (this.img != undefined) {
+                let fd = new FormData();
+                fd.append("archivo", this.img);
+                let header = { headers: { "x-token": this.$store.state.token } };
+                console.log(fd);
+                axios.put(`http://localhost:4000/api/actores/cargarCloud/${this.idactor}`,
+                    fd, header)
+                    .then(response => {
+                        this.aparecer = 1
+                        this.nombre = ""
+                        this.descripcion = ""
+                        console.log(response.data.url);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            } else {
+                this.$swal({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Inserta una foto del actor!',
+                    footer: '<a href="">Why do I have this issue?</a>'
                 })
+            }
         },
-        volver(){
-            this.aparecer= 1
-            this.nombre=""
-            this.descripcion=""
-        },
-        eliminar(){
+        eliminar() {
             let header = { headers: { "x-token": this.$store.state.token } }
             axios.delete(`http://localhost:4000/api/actores/${this.idactor}`, header)
                 .then(response => {
@@ -120,7 +148,7 @@ export default {
                 .catch(error => {
                     console.log(error);
                 })
-            this.aparecer=1
+            this.aparecer = 1
         }
     },
     // created() {
@@ -130,8 +158,8 @@ export default {
 </script>
 <style>
 .a {
-   height: 100%;
-   margin: 0;
-   background-image: url("https://www.todofondos.net/wp-content/uploads/1920x1080-Fondo-de-pantalla-Aesthetic.jpg")
+    height: 100%;
+    margin: 0;
+    background-image: url("https://www.todofondos.net/wp-content/uploads/1920x1080-Fondo-de-pantalla-Aesthetic.jpg")
 }
 </style>

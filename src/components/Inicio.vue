@@ -77,7 +77,7 @@
                 <v-col cols="4"></v-col>
             </v-row>
         </div>
-        <v-btn @click="plisss()">Pelis</v-btn>
+        <!-- <v-btn @click="plisss()">Pelis</v-btn> -->
     </v-container>
 </template>
 
@@ -111,9 +111,9 @@ export default {
             this.$router.replace("/")
             this.$store.commit("setToken", "")
         },
-        plisss(){
-            this.$router.push("/peliculas")
-        }
+        // plisss(){
+        //     this.$router.push("/peliculas")
+        // }
     },
     created() {
         this.listar()

@@ -149,10 +149,6 @@
                 <v-col cols="4"></v-col>
             </v-row>
         </div>
-
-
-
-
     </v-container-fluid>
 </template>
 
