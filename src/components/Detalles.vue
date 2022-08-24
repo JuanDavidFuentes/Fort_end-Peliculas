@@ -8,6 +8,16 @@
                     </v-col>
                     <v-col cols="3">
                         <v-img class="align-end" height="500px" :src="peliculas.imagen"></v-img>
+                        <v-row class="text-center" style="margin:0">
+                            <v-col cols="1"></v-col>
+                            <v-col cols="10">
+                                <div class="custom-input-file col-md-6 col-sm-6 col-xs-6">
+                                    <input type="file" id="fichero-tarifas" class="input-file" @change="subir">
+                                    Editar poster
+                                </div>
+                            </v-col>
+                            <v-col cols="1"></v-col>
+                        </v-row>
                     </v-col>
 
 
@@ -44,6 +54,18 @@
                                     mdi-heart
                                 </v-icon>
                             </v-btn>
+                        </v-row>
+                        <v-row style="margin-top:19%">
+                            <v-col cols="4"></v-col>
+                            <v-col cols="4">
+                            </v-col>
+                            <v-col cols="4" class="text-right">
+                                <v-btn class="mx-2" fab dark small color="blue" @click="editarPeli()">
+                                    <v-icon>
+                                        mdi-border-color
+                                    </v-icon>
+                                </v-btn>
+                            </v-col>
                         </v-row>
                     </v-col>
                 </v-row>
@@ -165,16 +187,16 @@ export default {
             detalles: [],
             idPeli: "",
             idUsu: "",
-            idActor:"",
+            idActor: "",
             comentario: "",
-            ocultar: 1
+            ocultar: 1,
         }
     },
     methods: {
         listar() {
             this.peliculas = this.$store.state.peliculas
             this.actores = this.peliculas.reparto
-            console.log(this.actore);
+            console.log(this.actores);
             console.log(this.peliculas);
         },
         favoritos() {
@@ -186,10 +208,17 @@ export default {
             axios.post("http://localhost:4000/api/favoritos", {
                 usuario: this.idUsu,
                 pelicula: this.idPeli,
-                
+
             }, header)
                 .then(response => {
                     console.log(response.data);
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: "Pelicula en favoritos",
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 })
                 .catch(error => {
                     console.log(error);
@@ -231,6 +260,29 @@ export default {
         },
         volverr() {
             this.ocultar = 1
+        },
+        editarPeli() {
+            this.$router.push("/editarPeli")
+        },
+        fotoPeliEditar() {
+        },
+        subir(e) {
+            this.img = e.target.files[0]
+            console.log(this.img);
+            let fd = new FormData();
+            fd.append("archivo", this.img);
+            let header = { headers: { "x-token": this.$store.state.token } };
+            console.log(fd);
+            axios.put(`http://localhost:4000/api/peliculas/cargarCloud/${this.idPeli}`,
+                fd, header)
+                .then(response => {
+                    console.log(response.data.url);
+                    this.peliculas.imagen=response.data.url
+                })
+                .catch(error => {
+                    console.log(error);
+
+                })
         }
     },
     created() {
@@ -285,9 +337,38 @@ export default {
     margin: 0;
     border: solid 2px #0099ff !important;
 }
+
 .margin2 {
     margin: 0;
     border: solid 2px #000000 !important;
+}
+
+.custom-input-file {
+  background-color:  rgb(0, 76, 255);
+  color: #fff;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0 auto 0;
+  min-height: 15px;
+  overflow: hidden;
+  padding: 10px;
+  position: relative;
+  text-align: center;
+  width: 400px;
+}
+
+.custom-input-file .input-file {
+ border: 10000px solid transparent;
+ cursor: pointer;
+ font-size: 10000px;
+ margin: 0;
+ opacity: 0;
+ outline: 0 none;
+ padding: 0;
+ position: absolute;
+ right: -1000px;
+ top: -1000px;
 }
 </style>
 

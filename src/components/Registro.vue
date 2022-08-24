@@ -1,5 +1,5 @@
   <template>
-    <v-container-fluid class="a">
+    <v-container-fluid class="a2">
         <v-row class="b"></v-row>
         <v-row class="c">
             <v-layout align-center justify-center>
@@ -69,7 +69,7 @@ export default {
 </script>
 
 <style>
-.a {
+.a2 {
     height: 100%;
     margin: 0;
     background-image: url("https://www.todofondos.net/wp-content/uploads/1920x1080-Fondo-de-pantalla-Aesthetic.jpg")

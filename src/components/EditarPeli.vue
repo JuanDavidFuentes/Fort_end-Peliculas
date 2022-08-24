@@ -1,6 +1,6 @@
  <template>
     <v-container class="body">
-        <div class="text-center black--text display-2 font-weight-bold">Insertar Peliculas</div>
+        <div class="text-center black--text display-2 font-weight-bold">Editar Pelicula</div>
         <v-row>
             <v-col cols="2"></v-col>
             <v-col cols="8" class="items-center">
@@ -109,38 +109,13 @@
                             </v-col>
                         </v-row>
                         <br><br>
-                        <div v-if="aparecer === 0">
-                            <span class="text-center display-1 black--text font-weight-Normal">
-                                Insertar Poster:
-                            </span>
-                            <br><br>
-                            <div>
-                                <br>
-                                <input type="file" @change="subir">
-                            </div>
-                            <br>
-                            <v-row>
-                                <v-col cols="4">
-                                    <div>
-                                        <v-btn @click="borrar()" color="red">Cancelar</v-btn>
-                                    </div>
-                                    <br><br>
-                                </v-col>
-                                <v-col cols="4"></v-col>
-                                <v-col cols="4">
-                                    <div>
-                                        <v-btn @click="agregar()" color="primary">Agregar pelicula</v-btn>
-                                    </div>
-                                </v-col>
-                            </v-row>
-                        </div>
                     </v-col>
                     <v-col cols="1"></v-col>
                 </v-row>
                 <br>
                 <div>
-                    <v-btn v-if="aparecer === 1" @click="insertarPeli()" color="primary">
-                        Continuar
+                    <v-btn @click="editarPeli()" color="primary">
+                        Editar
                     </v-btn>
                 </div>
             </v-col>
@@ -181,9 +156,10 @@
 <script>
 import axios from "axios"
 export default {
-    name: 'PagePelis',
+    name: 'PageEditarPelis',
 
     data: () => ({
+        peliculaEditar: {},
         actores: [],
         titulo: "",
         subtitulo: "",
@@ -196,14 +172,13 @@ export default {
         idactor: "",
         personaje: "",
         dialog: false,
-        aparecer: 1,
         alerta: "",
         idpeli: ""
     }),
     methods: {
-        insertarPeli() {
+        editarPeli() {
             let header = { headers: { "x-token": this.$store.state.token } }
-            axios.post("http://localhost:4000/api/peliculas", {
+            axios.put(`http://localhost:4000/api/peliculas/editar/${this.idpeli}`, {
                 titulo: this.titulo,
                 subtitulo: this.subtitulo,
                 fecha: this.fecha,
@@ -215,15 +190,45 @@ export default {
             }, header)
                 .then(response => {
                     console.log(response.data);
-                    this.alerta = response.data.msg
-                    this.idpeli = response.data.pelicula._id
-                    this.aparecer = 0
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: "Pelicula editada con exito",
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    this.titulo = "" 
+                    this.subtitulo = ""
+                    this.fecha = ""
+                    this.descripcion = ""
+                    this.genero = ""
+                    this.duracion = ""
+                    this.calificacion = ""
+                    this.reparto = []
+                    this.idactor = ""
+                    this.personaje = ""
+                    this.alerta = ""
+                    this.idpeli = ""
                 })
                 .catch(error => {
                     console.log(error);
+                    this.$swal({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Inserta una poster de la Pelicula!',
+                    })
                 })
         },
         traerActores() {
+            this.peliculaEditar = this.$store.state.peliculas
+            console.log(this.peliculaEditar);
+            this.titulo = this.peliculaEditar.titulo
+            this.subtitulo = this.peliculaEditar.subtitulo
+            this.descripcion = this.peliculaEditar.descripcion
+            this.genero = this.peliculaEditar.genero
+            this.duracion = this.peliculaEditar.duracion
+            this.calificacion = this.peliculaEditar.calificacion
+            this.idpeli = this.peliculaEditar._id
             axios.get(`http://localhost:4000/api/actores`)
                 .then(response => {
                     console.log(response);
@@ -249,67 +254,6 @@ export default {
             this.idactor = ""
             this.personaje = ""
             this.dialog = false
-        },
-        subir(e) {
-            this.img = e.target.files[0]
-            console.log(this.img);
-        },
-        agregar() {
-            if (this.img != undefined) {
-                let fd = new FormData();
-                fd.append("archivo", this.img);
-                let header = { headers: { "x-token": this.$store.state.token } };
-                console.log(fd);
-                axios.put(`http://localhost:4000/api/peliculas/cargarCloud/${this.idpeli}`,
-                    fd, header)
-                    .then(response => {
-                        console.log(response.data.url);
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: this.alerta,
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-                        this.aparecer = 1
-                        this.titulo = ""
-                        this.subtitulo = ""
-                        this.fecha = ""
-                        this.descripcion = ""
-                        this.genero = ""
-                        this.duracion = ""
-                        this.calificacion = ""
-                        this.reparto = []
-                        this.idactor = ""
-                        this.personaje = ""
-                        this.alerta = ""
-                        this.idpeli = ""
-                        this.img = undefined
-                    })
-                    .catch(error => {
-                        console.log(error);
-
-                    })
-            } else {
-                this.$swal({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Inserta una poster de la Pelicula!',
-                })
-            }
-        },
-        borrar() {
-            let header = { headers: { "x-token": this.$store.state.token } }
-            axios.delete(`http://localhost:4000/api/peliculas/${this.idpeli}`, header)
-                .then(response => {
-                    console.log(response);
-                    this.aparecer = 1
-                    this.reparto = []
-                    this.img = undefined
-                })
-                .catch(error => {
-                    console.log(error);
-                })
         }
 
     },
@@ -340,4 +284,3 @@ export default {
     margin: 0;
 }
 </style>
-

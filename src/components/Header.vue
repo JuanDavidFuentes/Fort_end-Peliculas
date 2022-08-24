@@ -60,6 +60,14 @@
           </v-list-item-icon>
           <v-list-item-title class="white--text">Agregar pelis</v-list-item-title>
         </v-list-item>
+
+        <v-list-item to="/listarActores">
+          <v-list-item-icon class="white--text">
+            <v-icon color="white">mdi-sword</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title class="white--text">Actores</v-list-item-title>
+        </v-list-item>
+
       </v-list>
     </v-navigation-drawer>
   </div>

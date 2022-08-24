@@ -8,10 +8,10 @@
                         </v-img>
                         <v-card-subtitle class="pb-2">
                             <div class="black--text title">
-                                    {{ p.pelicula.titulo }}{{p.pelicula.subtitulo}}
+                                {{ p.pelicula.titulo }}: {{ p.pelicula.subtitulo }}
                             </div>
                             <div>
-                                    {{ p.pelicula.fecha.slice(0, 10) }}
+                                {{ p.pelicula.fecha.slice(0, 10) }}
                             </div>
                         </v-card-subtitle>
                         <v-card-text>
@@ -21,19 +21,24 @@
                                 </v-rating>
 
                                 <div class="grey--text ms-4">
-                                        {{ p.pelicula.calificacion }}
+                                    {{ p.pelicula.calificacion }}
                                 </div>
                             </v-row>
                         </v-card-text>
                         <v-card-actions>
-                            <v-row>
-                                <v-col cols="4"></v-col>
+                            <v-row style="margin:0">
                                 <v-col cols="4">
+                                    <v-btn class="mx-2" fab dark small color="red" @click="Eliminarfavoritos(p._id)">
+                                        <v-icon dark>
+                                            mdi-heart-broken
+                                        </v-icon>
+                                    </v-btn>
+                                </v-col>
+                                <v-col cols="2">
                                     <v-btn color="primary" @click="detalles(p)">
                                         Detalles
                                     </v-btn>
                                 </v-col>
-                                <v-col cols="4"></v-col>
                             </v-row>
                         </v-card-actions>
                     </v-card>
@@ -69,7 +74,7 @@ export default {
             axios.get(`http://localhost:4000/api/favoritos/listarU/${this.data._id}`, header)
                 .then(response => {
                     console.log(response.data.fav);
-                    this.peliculas=response.data.fav
+                    this.peliculas = response.data.fav
                 })
                 .catch(error => {
                     console.log(error);
@@ -78,6 +83,26 @@ export default {
         detalles(p) {
             this.$store.dispatch("setPelicula", p.pelicula);
             this.$router.push("/detalles")
+        },
+        Eliminarfavoritos(id) {
+            console.log(this.peliculas);
+            console.log(id);
+            let header = { headers: { "x-token": this.$store.state.token } }
+            axios.delete(`http://localhost:4000/api/favoritos/${id}`, header)
+                .then(response => {
+                    console.log(response);
+                    this.listar()
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: "Pelicula eliminada de favoritos",
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                })
+                .catch(error => {
+                    console.log(error);
+                })
         }
     },
     created() {

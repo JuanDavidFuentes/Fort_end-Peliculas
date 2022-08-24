@@ -1,6 +1,6 @@
 
   <template>
-   <v-container-fluid class="a">
+   <v-container-fluid class="a1">
          <v-row class="b"></v-row>
          <v-row class="c">
             <v-layout align-center justify-center>
@@ -76,10 +76,10 @@ export default {
 </script>
 
 <style>
-.a {
+.a1 {
    height: 100%;
    margin: 0;
-   background-image: url("https://www.todofondos.net/wp-content/uploads/1920x1080-Fondo-de-pantalla-Aesthetic.jpg")
+   background-image: url("https://cdn.computerhoy.com/sites/navi.axelspringer.es/public/media/image/2018/06/series-netflix.jpg")
 }
 
 .b {

@@ -1,0 +1,122 @@
+
+  <template>
+    <v-container-fluid class="body">
+        <div class="text-center black--text display-2 font-weight-bold">Editar Actor</div>
+        <v-row style="margin:0">
+            <v-col cols="2">
+                <v-img class="align-end" height="50vh" :src="actor.foto"></v-img>
+                <v-row class="text-center" style="margin:0">
+                    <v-col cols="1"></v-col>
+                    <v-col cols="10">
+                        <div class="custom-input-file col-md-6 col-sm-6 col-xs-6">
+                            <input type="file" id="fichero-tarifas" class="input-file" @change="subir">
+                            Editar foto
+                        </div>
+                    </v-col>
+                    <v-col cols="1"></v-col>
+                </v-row>
+            </v-col>
+            <v-col cols="10" class="items-center">
+                <br><br>
+                <div>
+                    <span class="text-center display-1 black--text font-weight-Normal">
+                        Nombre:
+                    </span>
+                    <span>
+                        <v-text-field v-model="nombre" label="Nombre" type="text"></v-text-field>
+                    </span>
+                </div>
+                <div>
+                    <span class="text-center display-1 black--text font-weight-Normal">
+                        Observaciones:
+                    </span>
+                    <span>
+                        <v-text-field v-model="observaciones" label="Observaciones" type="text"></v-text-field>
+                    </span>
+                </div>
+                <div class="text-center">
+                    <v-btn color="primary" @click="editar()">
+                        Editar
+                    </v-btn>
+                </div>
+            </v-col>
+        </v-row>
+    </v-container-fluid>
+</template>
+
+
+<script>
+import axios from "axios"
+export default {
+    name: 'PageEdit',
+
+    data: () => ({
+        actor: {},
+        nombre: "",
+        observaciones: "",
+        idactor:""
+    }),
+    methods: {
+        infoActor() {
+            this.actor = this.$store.state.actores
+            this.nombre = this.actor.nombre
+            this.observaciones = this.actor.observaciones
+            this.idactor = this.actor._id
+        },
+        subir(e) {
+            this.img = e.target.files[0]
+            console.log(this.img);
+            let fd = new FormData();
+            fd.append("archivo", this.img);
+            let header = { headers: { "x-token": this.$store.state.token } };
+            console.log(fd);
+            axios.put(`http://localhost:4000/api/actores/cargarCloud/${this.idactor}`,
+                fd, header)
+                .then(response => {
+                    console.log(response.data.url);
+                    this.actor.foto = response.data.url
+                })
+                .catch(error => {
+                    console.log(error);
+
+                })
+        },
+        editar(){
+            let header = { headers: { "x-token": this.$store.state.token } }
+            axios.put(`http://localhost:4000/api/actores/editar/${this.idactor}`, {
+                nombre: this.nombre,
+                observaciones: this.observaciones
+            }, header)
+                .then(response => {
+                    console.log(response.data);
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: "Actor editado con exito",
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    this.nombre=""
+                    this.observaciones="" 
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.$swal({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Error al editar',
+                    })
+                })
+        }
+
+    },
+    created() {
+        this.infoActor()
+    },
+}
+</script>
+<style>
+.xd {
+    margin: 0;
+}
+</style>

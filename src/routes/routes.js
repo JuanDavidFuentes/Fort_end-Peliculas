@@ -6,6 +6,9 @@ import perfil from '../components/Perfil.vue';
 import favoritos from '../components/Favoritos.vue';
 import actores from '../components/Actores.vue';
 import peliculas from '../components/Peliculas.vue';
+import editarPeli from '../components/EditarPeli.vue';
+import listarActores from '../components/ListarActores.vue';
+import editarActor from '../components/EditarActor.vue';
 
 export const routes = [
     {path: '/', component: login},
@@ -16,4 +19,7 @@ export const routes = [
     {path: '/favoritos', component: favoritos},
     {path: '/actores', component: actores},
     {path: '/peliculas', component: peliculas},
+    {path: '/editarPeli', component: editarPeli},
+    {path: '/listarActores', component: listarActores},
+    {path: '/editarActor', component: editarActor},
 ]
