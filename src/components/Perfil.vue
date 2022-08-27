@@ -1,5 +1,5 @@
 <template >
-    <v-container class="body4">
+    <v-container class="body">
         <div v-if="ocultar === 1">
             <v-row class="perfil">
                 <v-col cols="2"></v-col>
@@ -94,10 +94,10 @@
                     </div>
                     <div>
                         <span class="text-center display-1 black--text font-weight-Normal">
-                            Nuevo correo:
+                            Correo:
                         </span>
                         <span>
-                            <v-text-field v-model="correo" label="correo" type="text"></v-text-field>
+                            <v-text-field disabled v-model="correo" type="text"></v-text-field>
                         </span>
                     </div>
                     <div>
@@ -109,13 +109,9 @@
                         </span>
                     </div>
                     <br>
-                    <div>
-                        <span class="text-center display-1 black--text font-weight-Normal">
-                            Cambiar foto:
-                        </span>
-                    </div>
-                    <div>
-                    <input type="file" @change="subir">
+                    <div class="custom-input-file col-md-6 col-sm-6 col-xs-6">
+                        <input type="file" id="fichero-tarifas" class="input-file" @change="subir">
+                        Editar Foto
                     </div>
                     <br>
                     <div>
@@ -153,7 +149,7 @@ export default {
             apellidos: "",
             correo: "",
             password: "",
-            img:""
+            img: ""
         }
     },
     methods: {
@@ -168,12 +164,20 @@ export default {
                 usuario: this.usuario,
                 nombre: this.nombres,
                 apellido: this.apellidos,
-                email: this.correo,
                 contrasena: this.password
             }, header)
                 .then(response => {
                     console.log(response.data);
-                    this.$router.push("/")
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: "Datos editados con exito",
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    this.$router.replace("/")
+                    this.$store.commit("setToken", "")
+
                 })
                 .catch(error => {
                     console.log(error);
@@ -184,7 +188,7 @@ export default {
         },
         volver() {
             this.ocultar = 1
-        }, 
+        },
         subir(e) {
             this.img = e.target.files[0]
             console.log(this.img);
@@ -196,7 +200,15 @@ export default {
                 fd, header)
                 .then(response => {
                     console.log(response.data.url);
-                    this.$store.state.datos.foto=response.data.url
+                    this.$store.state.datos.foto = response.data.url
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: "Foto editada con exito",
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    this.ocultar = 1
                 })
                 .catch(error => {
                     console.log(error);
@@ -205,6 +217,7 @@ export default {
         },
     },
     created() {
+        this.correo = this.$store.state.datos.email
         this.perfil()
     },
 }

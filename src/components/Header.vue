@@ -47,14 +47,14 @@
           <v-list-item-title class="white--text">Lista de pelis favoritas</v-list-item-title>
         </v-list-item>
 
-        <v-list-item to="/actores">
+        <v-list-item to="/actores" v-if="$store.state.datos.rol == 'ADMIN'">
           <v-list-item-icon class="white--text">
             <v-icon color="white">mdi-sword</v-icon>
           </v-list-item-icon>
           <v-list-item-title class="white--text">Agregar actor</v-list-item-title>
         </v-list-item>
 
-        <v-list-item to="/peliculas">
+        <v-list-item to="/peliculas"  v-if="$store.state.datos.rol == 'ADMIN'">
           <v-list-item-icon class="white--text">
             <v-icon color="white">mdi-arrow-up-bold</v-icon>
           </v-list-item-icon>

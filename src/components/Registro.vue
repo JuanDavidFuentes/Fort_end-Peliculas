@@ -1,7 +1,8 @@
   <template>
-    <v-container-fluid class="a2">
+    <v-container-fluid>
+        <v-img src="https://www.todofondos.net/wp-content/uploads/1920x1080-Fondo-de-pantalla-Aesthetic.jpg">
         <v-row class="b"></v-row>
-        <v-row class="c">
+        <v-row class=" mt-n8">
             <v-layout align-center justify-center>
                 <v-flex xs12 sm8 md4>
                     <v-card class="elevation-12">
@@ -27,7 +28,7 @@
             </v-layout>
         </v-row>
         <v-row class="b"></v-row>
-
+        </v-img>
     </v-container-fluid>
 </template>
 
@@ -47,21 +48,28 @@ export default {
     methods: {
         registro() {
             axios.post("http://localhost:4000/api/usuario", {
-                usuario:this.usuario,
-                nombre:this.nombre,
-                apellido:this.apellido,
+                usuario: this.usuario,
+                nombre: this.nombre,
+                apellido: this.apellido,
                 email: this.email,
                 contrasena: this.contrasena
             })
                 .then(response => {
                     console.log(response.data);
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: "Registro exitoso",
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                     this.$router.push("/")
                 })
                 .catch(error => {
                     console.log(error);
                 })
         },
-        volver(){
+        volver() {
             this.$router.push("/")
         }
     }
@@ -87,5 +95,14 @@ export default {
 
 .d {
     margin: 0;
+}
+
+.bodyyyyy {
+  font-family:sans-serif;
+  display: grid;
+  top:auto;
+  min-height:100%;
+  grid-template-rows:auto 1fr auto;
+  align-items: center;
 }
 </style>

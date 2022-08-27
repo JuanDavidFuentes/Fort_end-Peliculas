@@ -10,14 +10,13 @@
                                 mdi-magnify
                             </v-icon>
                         </v-btn>
-                        <v-text-field v-model="titulo" label="Search" type="text"></v-text-field>
+                        <v-text-field v-model="titulo2" label="Search" type="text"></v-text-field>
                     </v-row>
 
                 </v-col>
                 <v-col cols="4"></v-col>
             </v-row>
-            <br><br>
-            <v-row style="margin:0">
+            <v-row style="margin:30px">
                 <v-col cols="3" v-for="(p, i) in peliculas" :key="i">
                     <template>
                         <v-card class="mx-auto" max-width="200">
@@ -93,7 +92,6 @@
                 <v-col cols="4"></v-col>
             </v-row>
         </div>
-        <!-- <v-btn @click="plisss()">Pelis</v-btn> -->
     </v-container>
 </template>
 
@@ -101,21 +99,21 @@
 <script>
 import axios from 'axios'
 export default {
-    name: 'PageInicio',
+    name: 'PageSearch',
 
     data() {
         return {
-            titulo:"",
-            peliculas: []
+            peliculas: [],
+            titulo: "",
+            titulo2: ""
         }
     },
     methods: {
         listar() {
-            let header = { headers: { "x-token": this.$store.state.token } }
-            axios.get("http://localhost:4000/api/peliculas", header)
+            axios.get(`http://localhost:4000/api/peliculas/buscar?titulo=${this.titulo}`)
                 .then(response => {
-                    console.log(this.$store.state.datos.rol);
                     this.peliculas = response.data.pelicula
+                    console.log(this.titulo);
                 })
                 .catch(error => {
                     console.log(error);
@@ -129,15 +127,13 @@ export default {
             this.$router.replace("/")
             this.$store.commit("setToken", "")
         },
-        buscar(){
-            this.$router.push("/search")
-            this.$store.state.titulo=this.titulo
-        },
-        // plisss() {
-        //     this.$router.push("/search")
-        // }
+        buscar() {
+            this.titulo=this.titulo2
+            this.listar()
+        }
     },
     created() {
+        this.titulo = this.$store.state.titulo
         this.listar()
     },
 }

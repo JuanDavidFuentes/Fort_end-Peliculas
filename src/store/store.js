@@ -10,7 +10,8 @@ export const store =new Vuex.Store({
         datos:{},
         peliculas:{},
         comentarios:{},
-        actores:{}
+        actores:{},
+        titulo:""
     },
     mutations:{
         setToken(state,value){

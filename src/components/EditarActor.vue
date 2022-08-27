@@ -8,7 +8,8 @@
                 <v-row class="text-center" style="margin:0">
                     <v-col cols="1"></v-col>
                     <v-col cols="10">
-                        <div class="custom-input-file col-md-6 col-sm-6 col-xs-6">
+                        <div class="custom-input-file col-md-6 col-sm-6 col-xs-6"
+                            v-if="$store.state.datos.rol == 'ADMIN'">
                             <input type="file" id="fichero-tarifas" class="input-file" @change="subir">
                             Editar foto
                         </div>
@@ -23,7 +24,14 @@
                         Nombre:
                     </span>
                     <span>
-                        <v-text-field v-model="nombre" label="Nombre" type="text"></v-text-field>
+                        <v-text-field v-model="nombre" label="Nombre" type="text"
+                            v-if="$store.state.datos.rol == 'ADMIN'"></v-text-field>
+                        <br>
+                        <span class="text-center title black--text font-weight-light"
+                            v-if="$store.state.datos.rol !== 'ADMIN'">
+                            {{ this.nombre }}
+                        </span>
+                        <br>
                     </span>
                 </div>
                 <div>
@@ -31,10 +39,17 @@
                         Observaciones:
                     </span>
                     <span>
-                        <v-text-field v-model="observaciones" label="Observaciones" type="text"></v-text-field>
+                        <v-text-field v-model="observaciones" label="Observaciones" type="text"
+                            v-if="$store.state.datos.rol == 'ADMIN'"></v-text-field>
+                        <br>
+                        <span class="text-center title black--text font-weight-light"
+                            v-if="$store.state.datos.rol !== 'ADMIN'">
+                            {{ this.observaciones }}
+                        </span>
+                        <br>
                     </span>
                 </div>
-                <div class="text-center">
+                <div class="text-center" v-if="$store.state.datos.rol == 'ADMIN'">
                     <v-btn color="primary" @click="editar()">
                         Editar
                     </v-btn>
@@ -54,7 +69,7 @@ export default {
         actor: {},
         nombre: "",
         observaciones: "",
-        idactor:""
+        idactor: ""
     }),
     methods: {
         infoActor() {
@@ -81,7 +96,7 @@ export default {
 
                 })
         },
-        editar(){
+        editar() {
             let header = { headers: { "x-token": this.$store.state.token } }
             axios.put(`http://localhost:4000/api/actores/editar/${this.idactor}`, {
                 nombre: this.nombre,
@@ -96,8 +111,8 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     })
-                    this.nombre=""
-                    this.observaciones="" 
+                    this.nombre = ""
+                    this.observaciones = ""
                 })
                 .catch(error => {
                     console.log(error);

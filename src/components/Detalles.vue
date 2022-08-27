@@ -11,7 +11,7 @@
                         <v-row class="text-center" style="margin:0">
                             <v-col cols="1"></v-col>
                             <v-col cols="10">
-                                <div class="custom-input-file col-md-6 col-sm-6 col-xs-6">
+                                <div class="custom-input-file col-md-6 col-sm-6 col-xs-6" v-if="$store.state.datos.rol == 'ADMIN'">
                                     <input type="file" id="fichero-tarifas" class="input-file" @change="subir">
                                     Editar poster
                                 </div>
@@ -59,7 +59,7 @@
                             <v-col cols="4"></v-col>
                             <v-col cols="4">
                             </v-col>
-                            <v-col cols="4" class="text-right">
+                            <v-col cols="4" class="text-right" v-if="$store.state.datos.rol == 'ADMIN'">
                                 <v-btn class="mx-2" fab dark small color="blue" @click="editarPeli()">
                                     <v-icon>
                                         mdi-border-color
@@ -211,14 +211,26 @@ export default {
 
             }, header)
                 .then(response => {
-                    console.log(response.data);
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: "Pelicula en favoritos",
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
+                    console.log(response.data.msg);
+                    if (response.data.msg === "!La pelicula ya esta en favoritos") {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: response.data.msg,
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    } else {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: response.data.msg,
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+
+
                 })
                 .catch(error => {
                     console.log(error);
@@ -277,13 +289,13 @@ export default {
                 fd, header)
                 .then(response => {
                     console.log(response.data.url);
-                    this.peliculas.imagen=response.data.url
+                    this.peliculas.imagen = response.data.url
                 })
                 .catch(error => {
                     console.log(error);
 
                 })
-        }
+        },
     },
     created() {
         this.listar()
@@ -344,31 +356,31 @@ export default {
 }
 
 .custom-input-file {
-  background-color:  rgb(0, 76, 255);
-  color: #fff;
-  cursor: pointer;
-  font-size: 18px;
-  font-weight: bold;
-  margin: 0 auto 0;
-  min-height: 15px;
-  overflow: hidden;
-  padding: 10px;
-  position: relative;
-  text-align: center;
-  width: 400px;
+    background-color: rgb(0, 76, 255);
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0 auto 0;
+    min-height: 15px;
+    overflow: hidden;
+    padding: 10px;
+    position: relative;
+    text-align: center;
+    width: 400px;
 }
 
 .custom-input-file .input-file {
- border: 10000px solid transparent;
- cursor: pointer;
- font-size: 10000px;
- margin: 0;
- opacity: 0;
- outline: 0 none;
- padding: 0;
- position: absolute;
- right: -1000px;
- top: -1000px;
+    border: 10000px solid transparent;
+    cursor: pointer;
+    font-size: 10000px;
+    margin: 0;
+    opacity: 0;
+    outline: 0 none;
+    padding: 0;
+    position: absolute;
+    right: -1000px;
+    top: -1000px;
 }
 </style>
 

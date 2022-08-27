@@ -9,6 +9,7 @@ import peliculas from '../components/Peliculas.vue';
 import editarPeli from '../components/EditarPeli.vue';
 import listarActores from '../components/ListarActores.vue';
 import editarActor from '../components/EditarActor.vue';
+import search from '../components/Search.vue';
 
 export const routes = [
     {path: '/', component: login},
@@ -22,4 +23,5 @@ export const routes = [
     {path: '/editarPeli', component: editarPeli},
     {path: '/listarActores', component: listarActores},
     {path: '/editarActor', component: editarActor},
+    {path: '/search', component: search},
 ]
