@@ -64,14 +64,25 @@ export default {
                this.$router.push("/inicio")
             })
             .catch(error => {
-               // this.err = error.response.data.errors[0].msg
-               this.$swal.fire({
-                  position: 'top-end',
-                  icon: 'error',
-                  title: error.response.data.msg,
-                  showConfirmButton: false,
-                  timer: 1500
-               })
+               // this.err = error.response.data.errors[0].msg error.response.data.msg
+               if (error.response.data.errors) {
+                  this.$swal.fire({
+                     position: 'top-end',
+                     icon: 'error',
+                     title: error.response.data.errors[0].msg,
+                     showConfirmButton: false,
+                     timer: 1500
+                  })
+               }else{
+                  this.$swal.fire({
+                     position: 'top-end',
+                     icon: 'error',
+                     title: error.response.data.msg,
+                     showConfirmButton: false,
+                     timer: 1500
+                  })
+               }
+
                console.log(error);
             })
       },

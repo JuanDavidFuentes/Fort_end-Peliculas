@@ -113,14 +113,17 @@ export default {
                     })
                     this.nombre = ""
                     this.observaciones = ""
+                    this.$router.push("/listarActores")
                 })
                 .catch(error => {
                     console.log(error);
-                    this.$swal({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Error al editar',
-                    })
+                    this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: error.response.data.errors[0].msg,
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                 })
         }
 

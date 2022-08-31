@@ -126,7 +126,7 @@
         <v-dialog v-model="dialog" persistent max-width="600px">
             <v-card>
                 <v-card-title>
-                    <span class="text-h5">{{ idactor }}</span>
+                    <span class="text-h5">{{ nombredeactor }}</span>
                 </v-card-title>
                 <v-card-text>
                     <v-container>
@@ -173,7 +173,8 @@ export default {
         personaje: "",
         dialog: false,
         alerta: "",
-        idpeli: ""
+        idpeli: "",
+        nombredeactor:""
     }),
     methods: {
         editarPeli() {
@@ -209,14 +210,17 @@ export default {
                     this.personaje = ""
                     this.alerta = ""
                     this.idpeli = ""
+                    this.$router.push("/inicio")
                 })
                 .catch(error => {
                     console.log(error);
-                    this.$swal({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Inserta una poster de la Pelicula!',
-                    })
+                    this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: error.response.data.errors[0].msg,
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                 })
         },
         traerActores() {
@@ -242,6 +246,7 @@ export default {
         sacarId(actor) {
             this.dialog = true
             this.idactor = actor._id
+            this.nombredeactor=actor.nombre
         },
         insertarActor() {
             let actores = { idactor: this.idactor, personaje: this.personaje }

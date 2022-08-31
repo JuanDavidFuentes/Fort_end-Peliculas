@@ -11,7 +11,8 @@
                         <v-row class="text-center" style="margin:0">
                             <v-col cols="1"></v-col>
                             <v-col cols="10">
-                                <div class="custom-input-file col-md-6 col-sm-6 col-xs-6" v-if="$store.state.datos.rol == 'ADMIN'">
+                                <div class="custom-input-file col-md-6 col-sm-6 col-xs-6"
+                                    v-if="$store.state.datos.rol == 'ADMIN'">
                                     <input type="file" id="fichero-tarifas" class="input-file" @change="subir">
                                     Editar poster
                                 </div>
@@ -79,7 +80,7 @@
                 </carousel-3d>
             </v-row>
 
-            <v-row>
+            <v-row style="margin:0">
                 <v-row class="d">
                     <v-col cols="2"></v-col>
                     <v-col cols="8" class="margin">
@@ -103,9 +104,16 @@
                     </div>
                     <br>
                     <v-row class="margin2" v-for="(c, i) in comentarios" :key="i">
-                        <v-card>
-                            - {{ c.comentario }}
-                        </v-card>
+                        <span>
+                            <v-card class="mr-3 black--text title">
+                                {{ c.usuario.usuario }}:   
+                            </v-card>
+                        </span>
+                        <span>
+                            <v-card>
+                                     {{ c.comentario }}
+                            </v-card>
+                        </span>
                     </v-row>
                 </v-col>
                 <v-col cols="2"></v-col>
@@ -259,6 +267,7 @@ export default {
             this.idPeli = this.peliculas._id
             axios.get(`http://localhost:4000/api/comentarios/listarCdeP/${this.idPeli}`)
                 .then(response => {
+                    console.log(response);
                     this.comentarios = response.data.comen
                 })
                 .catch(error => {

@@ -40,6 +40,14 @@
         </v-list-item>
 
         <!-- //grupo holders -->
+        <v-list-item to="/holders" v-if="$store.state.datos.rol == 'ADMIN'">
+          <v-list-item-icon class="white--text">
+            <v-icon color="white">mdi-account</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-title class="white--text">holders</v-list-item-title>
+        </v-list-item>
+
         <v-list-item to="/favoritos">
           <v-list-item-icon class="white--text">
             <v-icon color="white">mdi-heart-outline</v-icon>
