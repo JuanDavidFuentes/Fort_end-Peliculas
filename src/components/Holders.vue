@@ -229,6 +229,13 @@ export default {
                 })
                 .catch(error => {
                     console.log(error);
+                    this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: error.response.data.errors[0].msg,
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                 })
         }
     },

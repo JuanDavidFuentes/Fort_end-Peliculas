@@ -4,7 +4,7 @@
     <v-app-bar app flex color="blue" dark>
       <v-app-bar-nav-icon @click="drawer = true" v-if="$store.state.token !== ''"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Peliculas</v-toolbar-title>
+      <v-toolbar-title>ApiPeliculas con Jholman</v-toolbar-title>
       <v-spacer></v-spacer>
 
       <v-btn @click="salir()" class="white blue--text" v-if="$store.state.token !== ''">

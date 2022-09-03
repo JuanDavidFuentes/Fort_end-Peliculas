@@ -34,7 +34,8 @@
                         Descripcion:
                     </span>
                     <span>
-                        <v-text-field v-model="descripcion" label="Descripcion" type="text"></v-text-field>
+                        <v-textarea v-model="descripcion" outlined name="input-7-4" label="Descripcion">
+                        </v-textarea>
                     </span>
                 </div>
                 <div>
@@ -66,6 +67,31 @@
                         Reparto:
                     </span>
                 </div>
+                <div>
+                    <v-btn color="blue darken-1" v-if="x === 1" text @click="x = 0">
+                        Mostrar actores
+                    </v-btn>
+                    <div v-if="x === 0">
+                        <v-btn color="blue darken-1" text @click="x = 1">
+                            Ocultar actores
+                        </v-btn>
+                        <v-row>
+                            <v-col cols="4"></v-col>
+                            <v-col cols="4">
+                                <v-row>
+                                    <v-btn class="mt-3 mr-1" rounded color="blue" @click="buscar()">
+                                        <v-icon dark>
+                                            mdi-magnify
+                                        </v-icon>
+                                    </v-btn>
+                                    <v-text-field v-model="nombre" label="Buscar actor" type="text"></v-text-field>
+                                </v-row>
+
+                            </v-col>
+                            <v-col cols="4"></v-col>
+                        </v-row>
+                    </div>
+                </div>
                 <v-row>
                     <v-col cols="1"></v-col>
                     <v-col cols="10">
@@ -75,7 +101,7 @@
                 <v-row>
                     <v-col cols="1"></v-col>
                     <v-col cols="10">
-                        <v-row>
+                        <v-row v-if="x === 0">
                             <v-col cols="3" v-for="(a, i) in actores" :key="i">
                                 <v-card class="mx-auto" max-width="200">
                                     <v-img class="white--text align-end" height="150px" :src="a.foto">
@@ -151,7 +177,7 @@
         <v-dialog v-model="dialog" persistent max-width="600px">
             <v-card>
                 <v-card-title>
-                    <span class="text-h5">{{nombredeactor}}</span>
+                    <span class="text-h5">{{ nombredeactor }}</span>
                 </v-card-title>
                 <v-card-text>
                     <v-container>
@@ -199,7 +225,9 @@ export default {
         aparecer: 1,
         alerta: "",
         idpeli: "",
-        nombredeactor:""
+        nombredeactor: "",
+        x: 1,
+        nombre: ""
     }),
     methods: {
         insertarPeli() {
@@ -223,12 +251,12 @@ export default {
                 .catch(error => {
                     console.log(error);
                     this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: error.response.data.errors[0].msg,
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
+                        position: 'top-end',
+                        icon: 'error',
+                        title: error.response.data.errors[0].msg,
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
 
                 })
         },
@@ -246,14 +274,22 @@ export default {
         sacarId(actor) {
             this.dialog = true
             this.idactor = actor._id
-            this.nombredeactor=actor.nombre
+            this.nombredeactor = actor.nombre
         },
         insertarActor() {
-            let actores = { idactor: this.idactor, personaje: this.personaje }
-            this.reparto.push(actores)
-            this.idactor = ""
-            this.personaje = ""
-            this.dialog = false
+            if (this.personaje === "") {
+                this.$swal({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Inserta el personaje!',
+                })
+            } else {
+                let actores = { idactor: this.idactor, personaje: this.personaje }
+                this.reparto.push(actores)
+                this.idactor = ""
+                this.personaje = ""
+                this.dialog = false
+            }
         },
         cancelar() {
             this.idactor = ""
@@ -317,6 +353,16 @@ export default {
                     this.aparecer = 1
                     this.reparto = []
                     this.img = undefined
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        },
+        buscar() {
+            axios.get(`http://localhost:4000/api/actores/buscar?nombre=${this.nombre}`)
+                .then(response => {
+                    this.actores = response.data.actor
+                    console.log(this.titulo);
                 })
                 .catch(error => {
                     console.log(error);

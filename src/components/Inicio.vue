@@ -18,7 +18,7 @@
             </v-row>
             <br><br>
             <v-row style="margin:0">
-                <v-col cols="3" v-for="(p, i) in peliculas" :key="i">
+                <v-col cols="2" v-for="(p, i) in peliculas" :key="i">
                     <template>
                         <v-card class="mx-auto" max-width="200">
                             <v-img class="white--text align-end" height="300px" :src="p.imagen">

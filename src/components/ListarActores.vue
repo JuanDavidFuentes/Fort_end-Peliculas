@@ -2,7 +2,7 @@
   <template>
     <v-container-fluid class="body">
         <v-row style="margin:30px">
-            <v-col cols="3" v-for="(a, i) in actores" :key="i">
+            <v-col cols="2" v-for="(a, i) in actores" :key="i">
                 <template>
                     <v-card class="mx-auto" max-width="200">
                         <v-img class="white--text align-end" height="300px" :src="a.foto">

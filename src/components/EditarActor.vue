@@ -1,7 +1,8 @@
 
   <template>
     <v-container-fluid class="body">
-        <div class="text-center black--text display-2 font-weight-bold">Editar Actor</div>
+        <div class="text-center black--text display-2 font-weight-bold" v-if="$store.state.datos.rol == 'ADMIN'">Editar Actor</div>
+        <div class="text-center black--text display-2 font-weight-bold" v-if="$store.state.datos.rol == 'usuario'">Actor</div>
         <v-row style="margin:0">
             <v-col cols="2">
                 <v-img class="align-end" height="50vh" :src="actor.foto"></v-img>
@@ -39,8 +40,8 @@
                         Observaciones:
                     </span>
                     <span>
-                        <v-text-field v-model="observaciones" label="Observaciones" type="text"
-                            v-if="$store.state.datos.rol == 'ADMIN'"></v-text-field>
+                        <v-textarea v-model="observaciones" outlined name="input-7-4" label="Descripcion" v-if="$store.state.datos.rol == 'ADMIN'">
+                        </v-textarea>
                         <br>
                         <span class="text-center title black--text font-weight-light"
                             v-if="$store.state.datos.rol !== 'ADMIN'">

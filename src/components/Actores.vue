@@ -18,7 +18,8 @@
                             Observacion:
                         </span>
                         <span>
-                            <v-text-field v-model="descripcion" label="Descripcion" type="text"></v-text-field>
+                            <v-textarea v-model="descripcion" outlined name="input-7-4" label="Descripcion">
+                            </v-textarea>
                         </span>
                     </div>
                 </v-form>
@@ -79,12 +80,12 @@ export default {
                 .catch(error => {
                     console.log(error);
                     this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: error.response.data.errors[0].msg,
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
+                        position: 'top-end',
+                        icon: 'error',
+                        title: error.response.data.errors[0].msg,
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
 
                 })
         },

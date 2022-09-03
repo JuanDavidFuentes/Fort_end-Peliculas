@@ -22,7 +22,7 @@
                         </v-col>
                         <v-col cols="7">
                            <p class="black--text">
-                              Si no estas reguistrado registrate e inicia sesión
+                              Si no estas registrado registrate he inicia sesión
                            </p>
                         </v-col>
                      </v-row>
