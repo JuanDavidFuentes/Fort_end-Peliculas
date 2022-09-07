@@ -232,7 +232,7 @@ export default {
     methods: {
         insertarPeli() {
             let header = { headers: { "x-token": this.$store.state.token } }
-            axios.post("http://localhost:4000/api/peliculas", {
+            axios.post("https://apipeliculas1.herokuapp.com/api/peliculas", {
                 titulo: this.titulo,
                 subtitulo: this.subtitulo,
                 fecha: this.fecha,
@@ -261,7 +261,7 @@ export default {
                 })
         },
         traerActores() {
-            axios.get(`http://localhost:4000/api/actores`)
+            axios.get(`https://apipeliculas1.herokuapp.com/api/actores`)
                 .then(response => {
                     console.log(response);
                     this.actores = response.data.actor
@@ -306,7 +306,7 @@ export default {
                 fd.append("archivo", this.img);
                 let header = { headers: { "x-token": this.$store.state.token } };
                 console.log(fd);
-                axios.put(`http://localhost:4000/api/peliculas/cargarCloud/${this.idpeli}`,
+                axios.put(`https://apipeliculas1.herokuapp.com/api/peliculas/cargarCloud/${this.idpeli}`,
                     fd, header)
                     .then(response => {
                         console.log(response.data.url);
@@ -347,7 +347,7 @@ export default {
         },
         borrar() {
             let header = { headers: { "x-token": this.$store.state.token } }
-            axios.delete(`http://localhost:4000/api/peliculas/${this.idpeli}`, header)
+            axios.delete(`https://apipeliculas1.herokuapp.com/api/peliculas/${this.idpeli}`, header)
                 .then(response => {
                     console.log(response);
                     this.aparecer = 1
@@ -359,7 +359,7 @@ export default {
                 })
         },
         buscar() {
-            axios.get(`http://localhost:4000/api/actores/buscar?nombre=${this.nombre}`)
+            axios.get(`https://apipeliculas1.herokuapp.com/api/actores/buscar?nombre=${this.nombre}`)
                 .then(response => {
                     this.actores = response.data.actor
                     console.log(this.titulo);

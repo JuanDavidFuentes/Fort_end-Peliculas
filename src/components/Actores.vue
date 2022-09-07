@@ -67,7 +67,7 @@ export default {
     methods: {
         insertar() {
             let header = { headers: { "x-token": this.$store.state.token } }
-            axios.post("http://localhost:4000/api/actores", {
+            axios.post("https://apipeliculas1.herokuapp.com/api/actores", {
                 nombre: this.nombre,
                 observaciones: this.descripcion
             }, header)
@@ -104,7 +104,7 @@ export default {
                 fd.append("archivo", this.img);
                 let header = { headers: { "x-token": this.$store.state.token } };
                 console.log(fd);
-                axios.put(`http://localhost:4000/api/actores/cargarCloud/${this.idactor}`,
+                axios.put(`https://apipeliculas1.herokuapp.com/api/actores/cargarCloud/${this.idactor}`,
                     fd, header)
                     .then(response => {
                         this.$swal.fire({
@@ -132,7 +132,7 @@ export default {
         },
         eliminar() {
             let header = { headers: { "x-token": this.$store.state.token } }
-            axios.delete(`http://localhost:4000/api/actores/${this.idactor}`, header)
+            axios.delete(`https://apipeliculas1.herokuapp.com/api/actores/${this.idactor}`, header)
                 .then(response => {
                     console.log(response);
                 })

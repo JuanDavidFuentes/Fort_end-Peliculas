@@ -156,7 +156,7 @@ export default {
     },
     methods: {
         usuarios() {
-            axios.get("http://localhost:4000/api/usuario/listar")
+            axios.get("https://apipeliculas1.herokuapp.com/api/usuario/listar")
                 .then(response => {
                     this.usuarioo = response.data.usu
                     console.log(this.usuarioo);
@@ -168,7 +168,7 @@ export default {
         desactivar(id) {
             let header = { headers: { "x-token": this.$store.state.token } }
             console.log(header);
-            axios.put(`http://localhost:4000/api/usuario/desactivar/${id}`, {}, header)
+            axios.put(`https://apipeliculas1.herokuapp.com/api/usuario/desactivar/${id}`, {}, header)
                 .then(response => {
                     console.log(response);
                     this.$swal.fire({
@@ -186,7 +186,7 @@ export default {
         },
         activar(id) {
             let header = { headers: { "x-token": this.$store.state.token } }
-            axios.put(`http://localhost:4000/api/usuario/activar/${id}`, {}, header)
+            axios.put(`https://apipeliculas1.herokuapp.com/api/usuario/activar/${id}`, {}, header)
                 .then(response => {
                     console.log(response);
                     this.$swal.fire({
@@ -207,7 +207,7 @@ export default {
             this.$store.commit("setToken", "")
         },
         agregar() {
-            axios.post("http://localhost:4000/api/usuario", {
+            axios.post("https://apipeliculas1.herokuapp.com/api/usuario", {
                 usuario: this.usuario,
                 nombre: this.nombre,
                 apellido: this.apellido,

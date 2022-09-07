@@ -110,7 +110,7 @@ export default {
     },
     methods: {
         listar() {
-            axios.get(`http://localhost:4000/api/peliculas/buscar?titulo=${this.titulo}`)
+            axios.get(`https://apipeliculas1.herokuapp.com/api/peliculas/buscar?titulo=${this.titulo}`)
                 .then(response => {
                     this.peliculas = response.data.pelicula
                     console.log(this.titulo);

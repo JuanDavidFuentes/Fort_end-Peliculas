@@ -160,7 +160,7 @@ export default {
         editar() {
             console.log(this.idusu);
             let header = { headers: { "x-token": this.$store.state.token } }
-            axios.put(`http://localhost:4000/api/usuario/editar/${this.data._id}`, {
+            axios.put(`https://apipeliculas1.herokuapp.com/api/usuario/editar/${this.data._id}`, {
                 usuario: this.usuario,
                 nombre: this.nombres,
                 apellido: this.apellidos,
@@ -203,7 +203,7 @@ export default {
             fd.append("archivo", this.img);
             let header = { headers: { "x-token": this.$store.state.token } };
             console.log(fd);
-            axios.put(`http://localhost:4000/api/usuario/cargarCloud/${this.$store.state.datos._id}`,
+            axios.put(`https://apipeliculas1.herokuapp.com/api/usuario/cargarCloud/${this.$store.state.datos._id}`,
                 fd, header)
                 .then(response => {
                     console.log(response.data.url);

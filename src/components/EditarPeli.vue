@@ -207,7 +207,7 @@ export default {
     methods: {
         editarPeli() {
             let header = { headers: { "x-token": this.$store.state.token } }
-            axios.put(`http://localhost:4000/api/peliculas/editar/${this.idpeli}`, {
+            axios.put(`https://apipeliculas1.herokuapp.com/api/peliculas/editar/${this.idpeli}`, {
                 titulo: this.titulo,
                 subtitulo: this.subtitulo,
                 fecha: this.fecha,
@@ -261,7 +261,7 @@ export default {
             this.duracion = this.peliculaEditar.duracion
             this.calificacion = this.peliculaEditar.calificacion
             this.idpeli = this.peliculaEditar._id
-            axios.get(`http://localhost:4000/api/actores`)
+            axios.get(`https://apipeliculas1.herokuapp.com/api/actores`)
                 .then(response => {
                     console.log(response);
                     this.actores = response.data.actor
@@ -297,7 +297,7 @@ export default {
             this.dialog = false
         },
         buscar() {
-            axios.get(`http://localhost:4000/api/actores/buscar?nombre=${this.nombre}`)
+            axios.get(`https://apipeliculas1.herokuapp.com/api/actores/buscar?nombre=${this.nombre}`)
                 .then(response => {
                     this.actores = response.data.actor
                     console.log(this.titulo);

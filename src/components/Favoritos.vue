@@ -71,7 +71,7 @@ export default {
     methods: {
         listar() {
             let header = { headers: { "x-token": this.$store.state.token } }
-            axios.get(`http://localhost:4000/api/favoritos/listarU/${this.data._id}`, header)
+            axios.get(`https://apipeliculas1.herokuapp.com/api/favoritos/listarU/${this.data._id}`, header)
                 .then(response => {
                     console.log(response.data.fav);
                     this.peliculas = response.data.fav
@@ -88,7 +88,7 @@ export default {
             console.log(this.peliculas);
             console.log(id);
             let header = { headers: { "x-token": this.$store.state.token } }
-            axios.delete(`http://localhost:4000/api/favoritos/${id}`, header)
+            axios.delete(`https://apipeliculas1.herokuapp.com/api/favoritos/${id}`, header)
                 .then(response => {
                     console.log(response);
                     this.listar()

@@ -213,7 +213,7 @@ export default {
             this.idUsu = this.datos._id
             // this.idActor=this.peliculas.reparto.idactor
             let header = { headers: { "x-token": this.$store.state.token } }
-            axios.post("http://localhost:4000/api/favoritos", {
+            axios.post("https://apipeliculas1.herokuapp.com/api/favoritos", {
                 usuario: this.idUsu,
                 pelicula: this.idPeli,
 
@@ -249,7 +249,7 @@ export default {
             this.idPeli = this.peliculas._id
             this.idUsu = this.datos._id
             let header = { headers: { "x-token": this.$store.state.token } }
-            axios.post("http://localhost:4000/api/comentarios", {
+            axios.post("https://apipeliculas1.herokuapp.com/api/comentarios", {
                 usuario: this.idUsu,
                 pelicula: this.idPeli,
                 comentario: this.comentario
@@ -265,7 +265,7 @@ export default {
         },
         traerComentatio() {
             this.idPeli = this.peliculas._id
-            axios.get(`http://localhost:4000/api/comentarios/listarCdeP/${this.idPeli}`)
+            axios.get(`https://apipeliculas1.herokuapp.com/api/comentarios/listarCdeP/${this.idPeli}`)
                 .then(response => {
                     console.log(response);
                     this.comentarios = response.data.comen
@@ -294,7 +294,7 @@ export default {
             fd.append("archivo", this.img);
             let header = { headers: { "x-token": this.$store.state.token } };
             console.log(fd);
-            axios.put(`http://localhost:4000/api/peliculas/cargarCloud/${this.idPeli}`,
+            axios.put(`https://apipeliculas1.herokuapp.com/api/peliculas/cargarCloud/${this.idPeli}`,
                 fd, header)
                 .then(response => {
                     console.log(response.data.url);

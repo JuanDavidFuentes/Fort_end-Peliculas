@@ -86,7 +86,7 @@ export default {
             fd.append("archivo", this.img);
             let header = { headers: { "x-token": this.$store.state.token } };
             console.log(fd);
-            axios.put(`http://localhost:4000/api/actores/cargarCloud/${this.idactor}`,
+            axios.put(`https://apipeliculas1.herokuapp.com/api/actores/cargarCloud/${this.idactor}`,
                 fd, header)
                 .then(response => {
                     console.log(response.data.url);
@@ -99,7 +99,7 @@ export default {
         },
         editar() {
             let header = { headers: { "x-token": this.$store.state.token } }
-            axios.put(`http://localhost:4000/api/actores/editar/${this.idactor}`, {
+            axios.put(`https://apipeliculas1.herokuapp.com/api/actores/editar/${this.idactor}`, {
                 nombre: this.nombre,
                 observaciones: this.observaciones
             }, header)

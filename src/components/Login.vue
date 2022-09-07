@@ -53,7 +53,7 @@ export default {
    }),
    methods: {
       login() {
-         axios.post("http://localhost:4000/api/usuario/login", {
+         axios.post("https://apipeliculas1.herokuapp.com/api/usuario/login", {
             email: this.email,
             contrasena: this.contrasena
          })

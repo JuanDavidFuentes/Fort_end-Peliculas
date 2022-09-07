@@ -41,7 +41,7 @@ export default {
     }),
     methods: {
         listarActores() {
-            axios.get("http://localhost:4000/api/actores")
+            axios.get("https://apipeliculas1.herokuapp.com/api/actores")
                 .then(response => {
                     this.actores = response.data.actor
                     console.log(this.actores);

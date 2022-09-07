@@ -48,7 +48,7 @@ export default {
     }),
     methods: {
         registro() {
-            axios.post("http://localhost:4000/api/usuario", {
+            axios.post("https://apipeliculas1.herokuapp.com/api/usuario", {
                 usuario: this.usuario,
                 nombre: this.nombre,
                 apellido: this.apellido,

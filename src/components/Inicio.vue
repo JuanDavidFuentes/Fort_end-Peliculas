@@ -112,7 +112,7 @@ export default {
     methods: {
         listar() {
             let header = { headers: { "x-token": this.$store.state.token } }
-            axios.get("http://localhost:4000/api/peliculas", header)
+            axios.get("https://apipeliculas1.herokuapp.com/api/peliculas", header)
                 .then(response => {
                     console.log(this.$store.state.datos.rol);
                     this.peliculas = response.data.pelicula
