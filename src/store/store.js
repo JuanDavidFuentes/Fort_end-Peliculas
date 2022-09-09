@@ -17,16 +17,16 @@ export const store =new Vuex.Store({
         setToken(state,value){
             state.token = value
         },
-        setDatos(state, datos){
-            state.datos = datos
+        setDatos(state, value){
+            state.datos = value
         },
-        setPelicula(state, datos){
-            state.peliculas = datos
+        setPelicula(state, value){
+            state.peliculas = value
         },
-        setActor(state, datos){
-            state.actores = datos
+        setActor(state, value){
+            state.actores = value
         }
-        // setComentario(state, datos){
+        // setComentario(state, value){
         //     state.comentarios = datos
         // }
     },
